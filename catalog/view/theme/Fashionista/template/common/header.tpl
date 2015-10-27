@@ -36,6 +36,7 @@
 		<link rel="stylesheet" type="text/css" href="catalog/view/javascript/modal/jquery.reveal.css" media="screen" />
 		<script type="text/javascript" src="<?php echo HTTP_SERVER; ?>catalog/view/theme/Fashionista/javascript/jquery/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
 		<link rel="stylesheet" type="text/css" href="<?php echo HTTP_SERVER; ?>catalog/view/theme/Fashionista/javascript/jquery/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,600,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 		<script type="text/javascript" src="<?php echo HTTP_SERVER; ?>catalog/view/theme/Fashionista/javascript/common.js"></script>
 		<?php foreach ($scripts as $script) { ?>
 		<script type="text/javascript" src="<?php echo HTTP_SERVER; ?><?php echo $script; ?>"></script>
@@ -74,59 +75,65 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
-
 <header>
-    <div class="header_upper">
-        <div class="info">+7 495 777-45-45
-            <div class="map">магазин на Ленинском
-                <div class="submenu">
-                    <img src="/img/index/map.jpg" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="person_nav">
-            <ul class="menu">
-                <li>
-                    <a href="">
-                    <img src="/img/user.png" alt="">Личный кабинет</a>
-                    <ul class="submenu">
-                        <div class="empty"></div>
-                        <div class="links">
-                            <li class="reg">
-                                <div class="link" id="register">Зарегистрироваться</div>
-                            </li>
-                            <li>
-                                <div class="link" id="enter">Войти</div>
-                            </li>
-                        </div>
-                    </ul>
-                </li>
-                <li>
-                    <a class="korzinalink" href="">
-                    <img src="img/basket.png" alt="">Корзина</a>
-			<div id="basket_content">
-			</div>
-                </li>
-            </ul>
-        </div>
-        <a href="/index.php" id="logo"><img src="/img/logo.png" alt="" class="logo"></a>
-    </div>
-	<?php if ($categories) { ?>
-    <nav>
-        <ul class="top_menu">
-		<?php
-		global $_;
-		$category_count = 0;
-		foreach ($categories as $key=>$category) { ?>   
+	<div class="universal__wrapper header clearfix">
+		<div class="col-universal">
+			<a href="tel:+74957774545">+7 495 777-45-45</a>
+			<span>
+				магазин на Ленинском	
+				<div class="map">
+					<img src="/img/index/map.jpg" alt="">
+				</div>
+			</span>
+		</div>
+		<div class="col-universal">
+			<a href="/index.php" class="logo">
+				<img class="logo" src="/img/logo.png">
+			</a>
+			<?php if ($categories) { ?>
+			<nav>
+				<ul class="top_menu">
+					<?php
+					global $_;
+					$category_count = 0;
+					foreach ($categories as $key=>$category) { ?>   
 
-		<li><a href="<?php echo $category['href']; ?>" class="drop_<?php echo $key; ?> <?php if ($category['active']) { echo 'active'; }?>"><?php echo $category['name']; ?></a></li>
+					<li>
+						<a href="<?php echo $category['href']; ?>" class="drop_<?php echo $key; ?> <?php if ($category['active']) { echo 'active'; }?>"><?php echo $category['name']; ?></a>
+					</li>
 
-	<?php } ?>
-		<li><a href="/akcii">АКЦИИ</a></li>
-        </ul>
-    </nav>
-	<?php } ?>
+					<?php } ?>
+					<li>
+						<a href="/akcii">АКЦИИ</a>
+					</li>
+				</ul>
+			</nav>
+			<?php } ?>			
+		</div>
+		<div class="col-universal">
+			<ul>
+				<li>
+					Вход
+					<ul class="sub__menu">
+						<li>
+							<a href="">
+								Зарегистрироваться
+							</a>
+						</li>
+						<li>
+							<a href="">
+								Войти
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="">
+						Корзина
+					</a>
+					<div id="basket_content"></div>
+				</li>
+			</ul>	
+		</div>
+	</div>
 </header>
-
-
-

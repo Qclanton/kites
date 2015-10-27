@@ -27,8 +27,8 @@ footer, header, hgroup, menu, nav, section {
 
 body {
     line-height: 1;
-    font-family: "Open Sans Regular", sans-serif !important;
-    color: #505050;
+	font-family: 'Open Sans', sans-serif;
+	color: #4f4f4f;
 }
 
 ol, ul {
@@ -76,359 +76,210 @@ input[type="submit"] {
 
 /* INDEX */
 
+
+
+/*Header New*/
+
 header {
+	background-color: #fff;
+}
+
+.universal__wrapper {
+    display: table;
+    margin: 0 auto;
+    max-width: 1920px;
+    padding: 20px 30px;
+    position: relative;
     width: 100%;
-    height: 140px;
-    background: white;
-    z-index: 20;
-    border-bottom: 1px solid #DDDDDD;
+	min-width: 1280px;
 }
 
-header .header_upper {
-    position: relative;
+
+.col-universal {
+	vertical-align: top;
+	text-align: left;
 }
 
-header .header_upper .info {
-    position: absolute;
-    top: 0;
-    left: 10px;
-    font-size: 1.2em;
+.col-universal:nth-child(2){
+	display: inline-block;
+	margin: 0 auto;
+	text-align: center;
+	vertical-align: top;
+	width: 69%;
 }
 
-header .header_upper .info .map {
-    color: #DC4C50;
-    font-size: .75em;
+.col-universal:first-child,
+.col-universal:last-child {
+	display: inline-block;
+	max-width: 250px;
+	min-width: 164px;
+	vertical-align: top;
+	width: 15%;
 }
 
-header .header_upper .info .map:hover {
-    cursor: pointer;
+
+.col-universal:first-child {
+	float: left;
 }
 
-header .header_upper .info .map .submenu {
-    display: none;
-    position: absolute;
-    width: 230px;
-    top: 40px;
-    left: 2px;
-    z-index: 25;
-    background: transparent;
+.col-universal:last-child {
+	text-align: right;
+	float: right;
 }
 
-header .header_upper .info .map:hover > .submenu {
-    display: block;
+
+.col-universal:first-child a {
+	font-size: 20px;
+	color: #4f4f4f;
 }
 
-header .header_upper .person_nav {
-    position: absolute;
-    top: 0;
-    right: 10px;
+.col-universal:first-child span {
+	color: #e54b4b;
+	font-size: 14px;
+	display: block;
 }
 
-header .header_upper .person_nav ul.menu li {
-    float: left;
-    margin: 0 5px;
+.col-universal:first-child span .map {
+	display: none;
+}
+.col-universal:first-child span:hover .map {
+	border: 5px solid #a2c5bf;
+	display: block;
+	margin-top: 15px;
+	position: absolute;
+	z-index: 100;
+}
+.col-universal:first-child span:hover .map img {
+	vertical-align: top;
 }
 
-header .header_upper .person_nav ul.menu li img {
-    float: left;
-    margin: 0 5px;
-    height: 15px;
+/*header 2nd col*/
+
+header ul.top_menu {
+	padding: 30px 0;
 }
 
-header .header_upper .person_nav ul.menu li a {
-    color: #505050;
+ul.top_menu > li {
+	display: inline-block;
 }
 
-header .header_upper .person_nav ul.menu li a:hover {
-    color: #E54B4B;
+ul.top_menu > li > a {
+	font-size: 18px;
+	text-transform: uppercase;
+	color: #4f4f4f;
 }
 
-header .header_upper .person_nav ul.submenu {
-    display: none;
-    position: absolute;
-    width: 230px;
-    top: 16px;
-    left: -25px;
-    z-index: 25;
-    background: transparent;
+
+ul.top_menu > li > a::before {
+	background-color: #e54b4b;
+	border-radius: 50%;
+	content: " ";
+	display: inline-block;
+	height: 10px;
+	position: relative;
+	vertical-align: middle;
+	width: 10px;
+	margin: 0 10px;
+	top: -2px;
 }
 
-header .header_upper .person_nav ul div.links {
-    border: 1px solid #C0C0C0;
+ul.top_menu > li:first-child > a::before {
+	display: none;
 }
 
-header .header_upper .person_nav ul div.links:after {
-    content: '';
-    clear: both;
-    display: block;
+ul.top_menu > li > a:hover {
+	color: #e54b4b;
 }
 
-header .header_upper .person_nav ul div.links li.reg:after {
-    content: url(../img/tri3.jpg);
-    position: absolute;
-    top: -14px;
-    left: 50%;
-    margin-left: -11px;
+/*Header 3rd col*/
+
+
+
+.col-universal:last-child ul li {
+	display: inline-block;
+	color: #4f4f4f;
+	font-size: 18px;
+	position: relative;
 }
 
-header .header_upper .person_nav ul div.empty {
-    height: 30px;
+
+.col-universal:last-child > ul > li:last-child a::before {
+	background-image: url('/img/basket.png');
+	content: ' ';
+	display: inline-block;
+	height: 27px;
+	padding: 10px 0;
+	position: relative;
+	vertical-align: sub;
+	width: 34px;
+}
+.col-universal:last-child > ul > li::before {
+	background-image: url('/img/user.png');
+	content: ' ';
+	display: inline-block;
+	height: 18px;
+	padding: 10px 0;
+	position: relative;
+	vertical-align: sub;
+	width: 19px;
 }
 
-header .header_upper .person_nav ul.submenu li {
-    display: block;
-    background: #F6F8F7;
-    width: 100%;
-    margin: 0;
-    position: relative;
+.col-universal:last-child > ul > li:last-child {
+	margin-left: 10px;
 }
 
-header .header_upper .person_nav ul.submenu li .link {
-    display: block;
-    padding: 10px;
-    color: #DC4C50;
-    height: 100%;
-    text-align: center;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
+.col-universal:last-child > ul > li:last-child::before {
+	display: none;
 }
 
-header .header_upper .person_nav ul.submenu li .link:hover {
-    background: #D2494D;
-    color: white;
-    cursor: pointer;
+
+
+.col-universal:last-child > ul > li .sub__menu {
+	display: none;
 }
 
-header .header_upper .person_nav ul.menu > li:hover > ul.submenu {
-    display: block;
+
+.col-universal:last-child ul li:hover .sub__menu {
+	display: block;
+	position: absolute;
+	text-align: center;
+	z-index: 100;
+	right: 0;
 }
 
-/* BASKET */
-
-header .header_upper .person_nav ul.submenu2 {
-    display: none;
-    position: absolute;
-    width: 460px;
-    top: 16px;
-    right: 10px;
-    z-index: 25;
-    background: transparent;
+.col-universal:last-child ul li:hover .sub__menu > li {
+	display: block;
+	border-bottom:  1px solid #dddddd;
+	background-color: #fff;
+    /* Firefox */
+    -moz-transition: all 0.3s ease-in;
+    /* WebKit */
+    -webkit-transition: all 0.3s ease-in;
+    /* Opera */
+    -o-transition: all 0.3s ease-in;
+    /* Standard */
+    transition: all 0.3s ease-in;
 }
 
-header .header_upper .person_nav ul div.links2 {
-    border: 1px solid #C0C0C0;
+.col-universal:last-child ul li:hover .sub__menu > li:first-child {
+	padding-top: 15px;
+}
+.col-universal:last-child ul li:hover .sub__menu > li > a {
+	font-size: 16px;
+	color: #4f4f4f;
+	padding: 15px;
+	display: block;
+	
+}
+.col-universal:last-child ul li:hover .sub__menu > li:hover  {
+	color: #fff;
+}
+.col-universal:last-child ul li:hover .sub__menu > li:hover a {
+	color: #fff;
+	background-color: #e54b4b;
 }
 
-header .header_upper .person_nav ul div.links2:after {
-    content: '';
-    clear: both;
-    display: block;
-}
-
-header .header_upper .person_nav ul div.links2 li.first_good:after {
-    content: url(../img/tri3.jpg);
-    position: absolute;
-    top: -14px;
-    right: 30px;
-    margin-left: -11px;
-}
-
-header .header_upper .person_nav ul div.empty {
-    height: 30px;
-}
-
-header .header_upper .person_nav ul.submenu2 li {
-    display: block;
-    background: #F6F8F7;
-    width: 100%;
-    margin: 0;
-    position: relative;
-}
-
-header .header_upper .person_nav ul.submenu2 li .link {
-    display: block;
-    padding: 10px;
-    color: #DC4C50;
-    height: 100%;
-    text-align: center;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-}
-
-header .header_upper .person_nav ul.submenu2 li .link:hover {
-    background: #D2494D;
-    color: white;
-    cursor: pointer;
-}
-
-header .header_upper .person_nav ul.menu > li:hover > ul.submenu2 {
-    display: block;
-}
-
-header .header_upper .person_nav ul.submenu2 .link2 {
-    color: white;
-    background: #E54B4B;
-    height: 30px;
-    text-align: center;
-    padding: 6px;
-}
-
-header .header_upper .person_nav ul.submenu2 .link2:hover {
-    background: #B24242;
-    cursor: pointer;
-}
-
-header .header_upper .person_nav ul.submenu2 .good {
-    position: relative;
-    overflow: hidden;
-    border-bottom: 1px solid #D0D0D0;
-    height: 100px;
-}
-
-header .header_upper .person_nav ul.submenu2 .good > img {
-    border-right: 1px solid #D0D0D0;
-    float: left;
-    margin: 0;
-    margin-right: 5px;
-    height: 100px;
-}
-
-header .header_upper .person_nav ul.submenu2 .good .good-title {
-    margin-top: 10px;
-    position: relative;
-}
-
-header .header_upper .person_nav ul.submenu2 .good .good-title img {
-    position: absolute;
-    top: 0;
-    right: 10px;
-}
-
-header .header_upper .person_nav ul.submenu2 .good .title {
-    display: inline-block;
-    margin-top: 5px;
-    font-size: 1.1em;
-    float: none;
-    clear: both;
-}
-
-header .header_upper .person_nav ul.submenu2 .good .title:hover {
-    cursor: pointer;
-    color: #DC4C50;
-}
-
-header .header_upper .person_nav ul.submenu2 .good .title .name {
-    text-transform: uppercase;
-}
-
-header .header_upper .person_nav ul.submenu2 .good .title .year {
-    color: #A2C5BF;
-}
-
-header .header_upper .person_nav ul.submenu2 .good .good_body {
-    margin-top: 20px;
-    float: none;
-    clear: both;
-}
-
-header .header_upper .person_nav ul.submenu2 .good .how_much {
-    float: left;
-    position: relative;
-    margin-top: 0;
-    margin-left: 5px;
-    font-size: .9em;
-    height: 80px;
-}
-
-header .header_upper .person_nav ul.submenu2 .good .how_much .pieces {
-    display: inline-block;
-    position: relative;
-    width: 30px;
-    margin-right: 20px;
-}
-
-header .header_upper .person_nav ul.submenu2 .good .how_much .box_color {
-    width: 30px;
-    height: 30px;
-    margin: 0 10px;
-    background: #4F5CB8;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-header .header_upper .person_nav ul.submenu2 .good .how_much .price {
-    float: right;
-    overflow: hidden;
-    display: block;
-}
-
-header .header_upper .person_nav ul.submenu2 .good .how_much .price div {
-    float: none;
-    clear: both;
-}
-
-header .header_upper .person_nav ul.submenu2 .good .how_much input {
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    border-radius: 0;
-    border: 1px solid #B6B6B6;
-    margin: 0 10px;
-    vertical-align: middle;
-    background: #F7F9F8;
-}
-
-header .header_upper .person_nav ul.submenu2 .good .how_much .price_red {
-    font-size: 1.2em;
-    color: #D84A4E;
-}
-
-header .header_upper .person_nav ul.submenu2 .good .how_much .old_price {
-    font-size: .9em;
-    text-decoration: line-through;
-}
-
-header .header_upper #logo {
-    width: 276px;
-    height: 75px;
-    margin: 10px auto;
-    display: block;
-}
-
-nav ul {
-    width: 700px;
-    margin: 20px auto;
-    overflow: hidden;
-}
-
-nav ul li {
-    float: left;
-    margin: 0 5px;
-    list-style-image: url(../img/red_ball.png);
-    list-style-position: inside;
-	padding: 5px 0;
-}
-
-nav ul li:first-child {
-    list-style: none;
-}
-
-nav ul li a {
-    text-transform: uppercase;
-    color: #505050;
-}
-
-nav ul li a:hover {
-    color: #DC4C50;
-}
-
-nav ul li a.active {
-    color: #DC4C50;
-    pointer-events: none;
-    cursor: default;
-}
+/*Header Ends*/
 
 .main-wrapper {
     width: 100%;
