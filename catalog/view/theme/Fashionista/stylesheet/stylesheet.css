@@ -79,10 +79,10 @@ input[type="submit"] {
 
 
 .universal__wrapper {
-    display: table;
+    display: block;
     margin: 0 auto;
     max-width: 1920px;
-    padding: 15px;
+    padding: 0;
     position: relative;
     width: 100%;
 	min-width: 1280px;
@@ -286,25 +286,7 @@ ul.top_menu > li > a:hover {
 
 /*Header Ends*/
 
-.main-wrapper {
-    width: 100%;
-    overflow: hidden;
-    background: #F7F9F8;
-    position: relative;
-}
 
-main {
-    background: #F7F9F8;
-    width: 1285px;
-    margin: 0 auto;
-    min-height: 700px;
-}
-
-main:after {
-    content: '';
-    display: block;
-    clear: both;
-}
 
 /* OTHER */
 
@@ -3518,14 +3500,6 @@ main.ops .backflip .text a:hover .tri_ops {
 
 /* INDEX */
 
-.main-wrapper.index {
-    background: white;
-}
-
-main.index {
-    z-index: 4;
-    background: white;
-}
 
 main.index #slider1_container {
     height: 375px;
@@ -3547,32 +3521,34 @@ main.index .sliders {
 }
 
 main.index .jssora13l {
-    top: 162px;
-    left: 30px;
+    top: 0;
+    left: 0;
+	background-color: #e54b4b;
+	background-image: url('../img/banner/arrow_left.png');
+	background-position: center center;
+	background-repeat: no-repeat;
 }
 
 main.index .jssora13r {
-    top: 162px;
-    right: 30px;
+	background-color: #e54b4b;
+	background-image: url('../img/banner/arrow_right.png');
+	background-position: center center;
+	background-repeat: no-repeat;
+    top: 0;
+    right: 0;
 }
 
 .jssora13l,
 .jssora13r {
     display: block;
     position: absolute;
-    /* size of arrow element */
-    width: 40px;
-    height: 50px;
+    width: 30px;
+    height: 375px;
     cursor: pointer;
-    background: url(../img/index/a13.png) no-repeat;
     overflow: hidden;
+	z-index: 300000;
 }
-.jssora13l { background-position: -10px -35px; }
-.jssora13r { background-position: -70px -35px; }
-.jssora13l:hover { background-position: -130px -35px; }
-.jssora13r:hover { background-position: -190px -35px; }
-.jssora13l.jssora13ldn { background-position: -250px -35px; }
-.jssora13r.jssora13rdn { background-position: -310px -35px; }
+
 
 /* INDEX POPULAR */
 
