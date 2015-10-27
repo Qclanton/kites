@@ -285,7 +285,7 @@ $(document).ready(function() {
                     'border-bottom': '1px solid #a2c5bf',
                     'z-index': '200'
                 });
-                $('header .top_menu').css('padding-top', '10px');
+                $('header .top_menu').css('padding', '10px 0');
                 $('header .universal__wrapper').css('padding', '10px 30px');
             }
        } else {
@@ -300,8 +300,8 @@ $(document).ready(function() {
                 'height': 'auto',
                 'border-bottom': 'none'
             });
-            $('header .top_menu').css('padding', '30px 0');
-            $('header .universal__wrapper').css('padding', '20px 30px');
+            $('header .top_menu').css('padding', '30px 0 15px');
+            $('header .universal__wrapper').css('padding', '20px 30px 10px');
        }
     });
 

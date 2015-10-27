@@ -1,4 +1,4 @@
-﻿
+
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -133,13 +133,15 @@ $(document).ready(function() {
        if (st > lastScrollTop){
            //вниз
            if (st >= 115) {
-                $('#logo').css('display', 'none');
+                $('.logo').css('display', 'none');
                 $('header').css({
                     'position': 'fixed',
-                    'height': '60px'
+                    'width': '100%',
+                    'border-bottom': '1px solid #a2c5bf',
+                    'z-index': '200'
                 });
-                $('header .info').css('top', '10px');
-                $('header .person_nav').css('top', '20px');
+                $('header .top_menu').css('padding', '10px 0');
+                $('header .universal__wrapper').css('padding', '10px 30px');
             }
        } else {
           // вверх
@@ -147,13 +149,14 @@ $(document).ready(function() {
        lastScrollTop = st;
        if (st == 0) {
         console.log('UPPER');
-        $('#logo').css('display', 'block');
+        $('.logo').css('display', 'inline-block');
             $('header').css({
                 'position': 'relative',
-                'height': '140px'
+                'height': 'auto',
+                'border-bottom': 'none'
             });
-            $('header .info').css('top', '0');
-            $('header .person_nav').css('top', '0');
+            $('header .top_menu').css('padding', '30px 0 15px');
+            $('header .universal__wrapper').css('padding', '20px 30px 10px');
        }
     });
    
