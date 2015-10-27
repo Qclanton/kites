@@ -1,0 +1,160 @@
+@CHARSET "ISO-8859-1";
+/* Style code for login */
+#cross_icon_login, #cross_icon_signup, #cross_icon_track, #cross_icon_image
+{
+	width: 20px;
+float: right;
+cursor: pointer;
+right: 20px;
+position: relative;
+}
+#cross_icon_login, #cross_icon_signup  {
+top: -30px;
+right: -30px;
+}
+#cross_icon_track {
+	margin-top: -20px;
+	margin-right: -40px;
+}
+#ajax_login, #ajax_signup
+{
+	background-color: white;
+	padding: 30px;
+	width: 250px; 
+	  
+}
+#login_title, #signup_title
+{
+	font-size: 22px;
+	border-bottom: 2px solid #ddd;
+	padding-bottom: 10px;
+	margin-bottom: 20px;
+}
+.login_display, .signup_display
+{
+	padding-left: 3px;
+	font-size: 16px;
+}
+#login_details input[type="text"],#login_details input[type="password"]
+{
+	width: 230px;
+	height: 19px;
+	margin: 10px 0 10px 0;
+	border-radius: 5px;
+}
+#signup_details input[type="text"], #signup_details input[type="password"]
+{
+	width: 230px;
+	height: 19px;
+	margin: 10px 0 10px 0;
+	border-radius: 5px;
+}
+#signup-link, #login-link
+{
+	/*margin-left: 7px;*/
+	font-size: 18px;
+	font-weight: bold;
+	color: #008000;
+	cursor: pointer;
+}
+
+
+.main-link
+{
+	width: auto;
+	float: left;
+	padding-right: 20px;
+}
+
+.ajax_login {
+	-moz-box-shadow:inset 0px 1px 0px 0px #fceaca;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #fceaca;
+	box-shadow:inset 0px 1px 0px 0px #fceaca;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffce79), color-stop(1, #eeaf41) );
+	background:-moz-linear-gradient( center top, #ffce79 5%, #eeaf41 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffce79', endColorstr='#eeaf41');
+	background-color:#ffce79;
+	-webkit-border-top-left-radius:6px;
+	-moz-border-radius-topleft:6px;
+	border-top-left-radius:6px;
+	-webkit-border-top-right-radius:6px;
+	-moz-border-radius-topright:6px;
+	border-top-right-radius:6px;
+	-webkit-border-bottom-right-radius:6px;
+	-moz-border-radius-bottomright:6px;
+	border-bottom-right-radius:6px;
+	-webkit-border-bottom-left-radius:6px;
+	-moz-border-radius-bottomleft:6px;
+	border-bottom-left-radius:6px;
+	text-indent:0;
+	border:1px solid #eeb44f;
+	display:inline-block;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:30px;
+	line-height:30px;
+	width:69px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #ce8e28;
+}
+.ajax_login:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #eeaf41), color-stop(1, #ffce79) );
+	background:-moz-linear-gradient( center top, #eeaf41 5%, #ffce79 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeaf41', endColorstr='#ffce79');
+	background-color:#eeaf41;
+	cursor:pointer;'
+}.ajax_login:active {
+	position:relative;
+	top:1px;
+}
+
+.ajax_signup {
+	-moz-box-shadow:inset 0px 1px 0px 0px #fceaca;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #fceaca;
+	box-shadow:inset 0px 1px 0px 0px #fceaca;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffce79), color-stop(1, #eeaf41) );
+	background:-moz-linear-gradient( center top, #ffce79 5%, #eeaf41 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffce79', endColorstr='#eeaf41');
+	background-color:#ffce79;
+	-webkit-border-top-left-radius:6px;
+	-moz-border-radius-topleft:6px;
+	border-top-left-radius:6px;
+	-webkit-border-top-right-radius:6px;
+	-moz-border-radius-topright:6px;
+	border-top-right-radius:6px;
+	-webkit-border-bottom-right-radius:6px;
+	-moz-border-radius-bottomright:6px;
+	border-bottom-right-radius:6px;
+	-webkit-border-bottom-left-radius:6px;
+	-moz-border-radius-bottomleft:6px;
+	border-bottom-left-radius:6px;
+	text-indent:0;
+	border:1px solid #eeb44f;
+	display:inline-block;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:30px;
+	line-height:30px;
+	width:76px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #ce8e28;
+}
+.ajax_signup:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #eeaf41), color-stop(1, #ffce79) );
+	background:-moz-linear-gradient( center top, #eeaf41 5%, #ffce79 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeaf41', endColorstr='#ffce79');
+	background-color:#eeaf41;
+	cursor:pointer;
+}.ajax_signup:active {
+	position:relative;
+	top:1px;
+}
+

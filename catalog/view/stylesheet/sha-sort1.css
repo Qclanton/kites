@@ -1,0 +1,30 @@
+#sha-sort .title{float:left}
+/* sha-sort */
+#sha-sort a{display:block;float:left;padding:0 8px 0 7px;line-height:21px;height:22px;display:inline-block;zoom:1;vertical-align:top;border:none;text-decoration:none;margin-right:15px;font-size:15px}
+#sha-sort a[sort-class="ps.price-DESC"],
+#sha-sort a[sort-class="p.price-DESC"],
+#sha-sort a[sort-class="(p.price/ps.price)-ASC"],
+#sha-sort a[sort-class="p.model-DESC"],
+#sha-sort a.selected{display:none}
+#sha-sort a[sort-class="ps.price-ASC"].selected + a[sort-class="ps.price-DESC"],
+#sha-sort a[sort-class="p.price-ASC"].selected + a[sort-class="p.price-DESC"],
+#sha-sort a[sort-class="(p.price/ps.price)-DESC"].selected + a[sort-class="(p.price/ps.price)-ASC"],
+#sha-sort a[sort-class="p.model-ASC"].selected + a[sort-class="p.model-DESC"],
+#sha-sort a[sort-class="ps.price-ASC"].next-selected,
+#sha-sort a[sort-class="p.price-ASC"].next-selected,
+#sha-sort a[sort-class="(p.price/ps.price)-DESC"].next-selected,
+#sha-sort a[sort-class="p.model-ASC"].next-selected{display:inline-block;color:#FFF;background:#ACACAC;background:-moz-linear-gradient(top,#717171,#acacac);background:-webkit-gradient(linear,left bottom,left top,color-stop(0,#717171),color-stop(1,#ACACAC));filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#717171',endColorstr='#acacac');-ms-filter:"progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#717171',endColorstr='#acacac')";-moz-border-radius:3px;-webkit-border-radius:3px;-khtml-border-radius:3px;border-radius:3px}
+#sha-sort a span{background:url('../../../image/shaimages/icons_sort.png') right bottom no-repeat;width:14px;height:14px;margin-right:4px;margin-bottom:-2px;margin-top:4px;display:block;float:left}
+#sha-sort a[sort-class="ps.price-ASC"] span{background-position:0 -28px}
+#sha-sort a[sort-class="p.price-ASC"] span{background-position:0 -42px}
+#sha-sort a[sort-class="(p.price/ps.price)-DESC"] span{background-position:0 -14px}
+#sha-sort a[sort-class="ps.price-ASC"].next-selected span,
+#sha-sort a[sort-class="p.price-ASC"].next-selected span,
+#sha-sort a[sort-class="(p.price/ps.price)-DESC"].next-selected span,
+#sha-sort a[sort-class="p.model-ASC"].next-selected span{background-position:0 -56px}
+#sha-sort a[sort-class="ps.price-DESC"] span,
+#sha-sort a[sort-class="p.price-DESC"] span,
+#sha-sort a[sort-class="(p.price/ps.price)-DESC"].selected + a[sort-class="(p.price/ps.price)-ASC"] span,
+#sha-sort a[sort-class="p.model-ASC"].selected + a[sort-class="p.model-DESC"] span{background-position:-14px -56px}
+#sha-sort a[sort-class="p.model-ASC"] span{background-position:0 0}
+#sha-sort a[sort-class="p.sort_order-ASC"]{/* display:none */}
