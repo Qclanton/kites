@@ -1,6 +1,6 @@
 <?php echo $header; ?>
 
-<main class="index">
+<main class="index clearfix">
 	<div class="universal__wrapper clearfix" style="background-color: #fff;">
 		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 		<script type="text/javascript" src="/catalog/view/theme/Fashionista/javascript/jquery/jquery.jscrollpane.js"></script>
@@ -73,7 +73,200 @@
 
 	</div>
 	
-	
+
+	<div class="universal__wrapper clearfix popular">
+		<h1>Популярные товары</h1>
+		<div class="goods">
+			<div class="goods-wrapper">
+				<article>
+					<div class="img">
+						<div class="new">Новинка</div>
+						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+					</div>
+					<p class="name">
+						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
+						<span class="year">2015</span></a>
+					</p>
+					<p class="price">
+						<span class="red">153 900 p</span>
+					</p>
+				</article>
+				<article>
+					<div class="img">
+						<div class="new">Новинка</div>
+						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+					</div>
+					<p class="name">
+						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
+						<span class="year">2015</span></a>
+					</p>
+					<p class="price">
+						<span class="red">153 900 p</span>
+					</p>
+				</article>
+				<article>
+					<div class="img">
+						<div class="new">Новинка</div>
+						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+					</div>
+					<p class="name">
+						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
+						<span class="year">2015</span></a>
+					</p>
+					<p class="price">
+						<span class="red">153 900 p</span>
+					</p>
+				</article>
+				<article>
+					<div class="img">
+						<div class="new">Новинка</div>
+						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+					</div>
+					<p class="name">
+						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
+						<span class="year">2015</span></a>
+					</p>
+					<p class="price">
+						<span class="red">153 900 p</span>
+					</p>
+				</article>
+				<article>
+					<div class="img">
+						<div class="new">Новинка</div>
+						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+					</div>
+					<p class="name">
+						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
+						<span class="year">2015</span></a>
+					</p>
+					<p class="price">
+						<span class="red">153 900 p</span>
+					</p>
+				</article>
+				<article>
+					<div class="img">
+						<div class="new">Новинка</div>
+						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+					</div>
+					<p class="name">
+						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
+						<span class="year">2015</span></a>
+					</p>
+					<p class="price">
+						<span class="red">153 900 p</span>
+					</p>
+				</article>
+				<article>
+					<div class="img">
+						<div class="new">Новинка</div>
+						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+					</div>
+					<p class="name">
+						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
+						<span class="year">2015</span></a>
+					</p>
+					<p class="price">
+						<span class="red">153 900 p</span>
+					</p>
+				</article>
+				<article>
+					<div class="img">
+						<div class="new">Новинка</div>
+						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+					</div>
+					<p class="name">
+						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
+						<span class="year">2015</span></a>
+					</p>
+					<p class="price">
+						<span class="red">153 900 p</span>
+					</p>
+				</article>
+				<article>
+					<div class="img">
+						<div class="new">Новинка</div>
+						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+					</div>
+					<p class="name">
+						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
+						<span class="year">2015</span></a>
+					</p>
+					<p class="price">
+						<span class="red">153 900 p</span>
+					</p>
+				</article>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="universal__wrapper clearfix blocks three_cols">
+		<div class="col-universal">
+			<div class="cell-colored colored--green">
+				<h3>О магазине</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur praesentium modi aperiam recusandae suscipit nobis, fugiat eligendi velit laboriosam laudantium sapiente. Fugiat exercitationem commodi nisi minus provident.</p>
+			</div>
+			<div class="row__universal three__cells">
+				<div class="row__universal--inner">
+					<div class="cell-universal">
+						<div class="opacity imgs"></div>
+						<a href="" class="loop">
+							<img src="img/index/zoom.jpg" alt="">
+						</a>
+						<img src="img/index/photo_01.jpg" alt="">
+					</div>
+					<div class="cell-universal">
+						<div class="opacity imgs"></div>
+						<a href="" class="loop">
+							<img src="img/index/zoom.jpg" alt="">
+						</a>
+						<img src="img/index/photo_01.jpg" alt="">
+					</div>
+					<div class="cell-universal">
+						<div class="opacity imgs"></div>
+						<a href="" class="loop">
+							<img src="img/index/zoom.jpg" alt="">
+						</a>
+						<img src="img/index/photo_01.jpg" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-universal">
+			<div class="map__col">
+				<img src="img/index/map.jpg" alt="">
+				<div class="line-colored">
+					<p>г.Москва, ул.Ленинский проспект, д.30, вход со двора справа от 1-го подъезда. Мы работаем ежедневно с 10 до 21 часа.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-universal">
+			<div class="row__universal">
+				<div class="row__universal--inner">
+					<div class="cell-universal">
+						<div class="cell-wrapper-inner colored--red cell-colored">
+							<div class="opacity"></div>
+							<h5>Кайты <span>North</span></h5>
+							<p class="percent">-15%</p>
+						</div>
+					</div>
+					<div class="cell-universal">
+						<div class="cell-wrapper-inner colored--red cell-colored">
+							<div class="opacity"></div>
+							<h5>Кайты <span>Liquid forse</span></h5>
+							<p class="percent">-15%</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="cell-universal colored--red cell-colored">
+				<h3>Акции</h3>
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur praesentium modi aperiam recusandae suscipit nobis, fugiat eligendi velit laboriosam laudantium sapiente. Fugiat exercitationem commodi nisi minus provident.</p>
+			</div>
+		</div>
+	</div>
 	
 </main>
 

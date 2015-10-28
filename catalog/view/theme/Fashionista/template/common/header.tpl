@@ -26,6 +26,7 @@
 		<link rel="<?php echo $style['rel']; ?>" type="text/css" href="<?php echo HTTP_SERVER; ?><?php echo $style['href']; ?>" media="<?php echo $style['media']; ?>" />
 		<?php } ?>		
 		<link rel="stylesheet" type="text/css" href="<?php echo HTTP_SERVER; ?>catalog/view/theme/Fashionista/stylesheet/stylesheet.css?v=2" />
+		<link rel="stylesheet" type="text/css" href="<?php echo HTTP_SERVER; ?>catalog/view/theme/Fashionista/stylesheet/responsive.css" />
 		<link rel="stylesheet" type="text/css" href="<?php echo HTTP_SERVER; ?>catalog/view/theme/Fashionista/stylesheet/jquery.jscrollpane.css" />
 		<link rel="stylesheet" type="text/css" href="catalog/view/theme/Fashionista/stylesheet/ajax_login_register.css" />
 		<script type="text/javascript" src="<?php echo HTTP_SERVER; ?>catalog/view/theme/Fashionista/javascript/jquery/jquery-1.6.1.min.js"></script>

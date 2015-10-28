@@ -1,0 +1,74 @@
+
+/* ADAPTIVE */
+
+@media all and (min-width: 1920px) {
+    main.index {
+        width: 100%;
+		margin: 0 auto;
+    }
+
+    main.index .blocks .trinity.first .little,
+    main.index .blocks .trinity.third .little {
+        width: 197px;
+    }
+
+    main.index .my_map {
+        height: 398px;
+    }
+
+    main.index .blocks .trinity.third .little:last-child,
+    main.index .blocks .trinity.first .little:last-child {
+        margin-left: 10px;
+        float: right;
+    }
+
+    .big_screen {
+        display: block;
+    }
+
+    main.index .brends img {
+        margin: 0 11px;
+        float: left;
+    }
+
+    main.goods .content {
+        width: 1540px;
+    }
+}
+
+
+@media all and (min-width: 1260px) {
+	.row__universal.three__cells .cell-universal:nth-child(n+3) {
+		display: none !important;
+	}
+	.row__universal.three__cells .cell-universal {
+		width: 48.8%;	
+	}
+	.row__universal.three__cells .cell-universal:nth-child(2) {
+		margin-right: 0 !important;
+		float: right;
+	}
+}
+
+
+@media all and (min-width: 1920px) {
+	.row__universal.three__cells .cell-universal {
+		width: 31.9% !important;	
+	}
+	
+	.row__universal.three__cells .cell-universal:nth-child(n+2) {
+		display: inline-block !important;
+	}
+	.row__universal.three__cells .cell-universal:nth-child(2) {
+		float: none;
+	}
+	
+	.col-universal .map__col img {
+		max-height: 337px;
+	}
+	
+	.universal__wrapper.blocks.three_cols .col-universal .cell-colored.colored--red p {
+		margin-bottom: 20px;
+	}
+	
+}
