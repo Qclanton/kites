@@ -10,6 +10,10 @@
 		<script type="text/javascript" src="/catalog/view/theme/Fashionista/javascript/jquery/jssor.js"></script>
 		<script type="text/javascript" src="/catalog/view/theme/Fashionista/javascript/jquery/jssor.slider.js"></script>
 		<script type="text/javascript" src="/catalog/view/theme/Fashionista/javascript/jquery/script.js"></script>
+		<script type="text/javascript" src="http://cdn.jsdelivr.net/jquery.mcustomscrollbar/3.0.6/jquery.mCustomScrollbar.concat.min.js"></script>
+		<link  type="text/css" rel="stylesheet" href="http://cdn.jsdelivr.net/jquery.mcustomscrollbar/3.0.6/jquery.mCustomScrollbar.min.css">
+		
+		
 		<script>
 
 			jQuery(document).ready(function ($) {
@@ -23,7 +27,7 @@
 					$SlideHeight: 375,                                  //[Optional] Height of every slide in pixels, the default is width of 'slides' container
 					$SlideSpacing: 0,                                   //Space between each slide in pixels
 					$DisplayPieces: 2,                                  //Number of pieces to display (the slideshow would be disabled if the value is set to greater than 1), the default value is 1
-					$ParkingPosition: 100,                                //The offset position to park slide (this options applys only when slideshow disabled).
+					$ParkingPosition: 160,                                //The offset position to park slide (this options applys only when slideshow disabled).
 
 					$ArrowNavigatorOptions: {                       //[Optional] Options to specify and enable arrow navigator or not
 						$Class: $JssorArrowNavigator$,              //[Requried] Class to create arrow navigator instance
@@ -40,7 +44,7 @@
 				function ScaleSlider() {
 					var parentWidth = jssor_slider1.$Elmt.parentNode.clientWidth;
 					if (parentWidth)
-						jssor_slider1.$ScaleWidth(Math.min(parentWidth, 1920));
+						jssor_slider1.$ScaleWidth(Math.min(parentWidth, 1980));
 					else
 						window.setTimeout(ScaleSlider, 30);
 				}
@@ -50,8 +54,25 @@
 				$(window).bind("resize", ScaleSlider);
 				$(window).bind("orientationchange", ScaleSlider);
 				//responsive code end
+				
+				
+				// Init scrollbar
+				$(".goods").mCustomScrollbar({
+					axis:"x",
+					theme:"dark",
+					mouseWheel: {
+						enable: false
+					},
+					scrollButtons: {
+						enable: true
+					},
+					advanced: {
+						autoExpandHorizontalScroll: true
+					}
+				});
 			});
 		</script>
+		
 
 		<div id="slider1_container" style='overflow: hidden;'>
 			<!-- Slides Container -->
@@ -74,130 +95,225 @@
 	</div>
 	
 
-	<div class="universal__wrapper clearfix popular">
+	 <div class="popular"> 
 		<h1>Популярные товары</h1>
 		<div class="goods">
 			<div class="goods-wrapper">
-				<article>
+				<div class="universal__cell product__cell product__cell--main">
 					<div class="img">
-						<div class="new">Новинка</div>
-						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+						<span class="new">Новинка</span>
+						<a class="catproductimg" style="background-image: url('http://kites.local/image/cache/data/shop/harness/seat/dakine/DK%20FUSION%202013-193x193.jpg');" href="http://kites.local/Трапеции/Dakine_FUSION_2013"> </a>
 					</div>
-					<p class="name">
-						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
-						<span class="year">2015</span></a>
-					</p>
+					<h2 class="name">
+						<a href="http://kites.local/Трапеции/Dakine_FUSION_2013">
+							<span class="upper">Трапеция Dakine 13 FUSION</span>
+							<span class="year"></span>
+						</a>
+					</h2>
 					<p class="price">
-						<span class="red">153 900 p</span>
+						<span class="red"> 7 520 р. </span>
 					</p>
-				</article>
-				<article>
+				</div>
+				<div class="universal__cell product__cell product__cell--main">
 					<div class="img">
-						<div class="new">Новинка</div>
-						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+						<span class="new">Новинка</span>
+						<a class="catproductimg" style="background-image: url('http://kites.local/image/cache/data/shop/harness/seat/dakine/DK%20FUSION%202013-193x193.jpg');" href="http://kites.local/Трапеции/Dakine_FUSION_2013"> </a>
 					</div>
-					<p class="name">
-						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
-						<span class="year">2015</span></a>
-					</p>
+					<h2 class="name">
+						<a href="http://kites.local/Трапеции/Dakine_FUSION_2013">
+							<span class="upper">Трапеция Dakine 13 FUSION</span>
+							<span class="year"></span>
+						</a>
+					</h2>
 					<p class="price">
-						<span class="red">153 900 p</span>
+						<span class="red"> 7 520 р. </span>
 					</p>
-				</article>
-				<article>
+				</div>
+				<div class="universal__cell product__cell product__cell--main">
 					<div class="img">
-						<div class="new">Новинка</div>
-						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+						<span class="new">Новинка</span>
+						<a class="catproductimg" style="background-image: url('http://kites.local/image/cache/data/shop/harness/seat/dakine/DK%20FUSION%202013-193x193.jpg');" href="http://kites.local/Трапеции/Dakine_FUSION_2013"> </a>
 					</div>
-					<p class="name">
-						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
-						<span class="year">2015</span></a>
-					</p>
+					<h2 class="name">
+						<a href="http://kites.local/Трапеции/Dakine_FUSION_2013">
+							<span class="upper">Трапеция Dakine 13 FUSION</span>
+							<span class="year"></span>
+						</a>
+					</h2>
 					<p class="price">
-						<span class="red">153 900 p</span>
+						<span class="red"> 7 520 р. </span>
 					</p>
-				</article>
-				<article>
+				</div>
+				<div class="universal__cell product__cell product__cell--main">
 					<div class="img">
-						<div class="new">Новинка</div>
-						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+						<span class="new">Новинка</span>
+						<a class="catproductimg" style="background-image: url('http://kites.local/image/cache/data/shop/harness/seat/dakine/DK%20FUSION%202013-193x193.jpg');" href="http://kites.local/Трапеции/Dakine_FUSION_2013"> </a>
 					</div>
-					<p class="name">
-						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
-						<span class="year">2015</span></a>
-					</p>
+					<h2 class="name">
+						<a href="http://kites.local/Трапеции/Dakine_FUSION_2013">
+							<span class="upper">Трапеция Dakine 13 FUSION</span>
+							<span class="year"></span>
+						</a>
+					</h2>
 					<p class="price">
-						<span class="red">153 900 p</span>
+						<span class="red"> 7 520 р. </span>
 					</p>
-				</article>
-				<article>
+				</div>
+				<div class="universal__cell product__cell product__cell--main">
 					<div class="img">
-						<div class="new">Новинка</div>
-						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+						<span class="new">Новинка</span>
+						<a class="catproductimg" style="background-image: url('http://kites.local/image/cache/data/shop/harness/seat/dakine/DK%20FUSION%202013-193x193.jpg');" href="http://kites.local/Трапеции/Dakine_FUSION_2013"> </a>
 					</div>
-					<p class="name">
-						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
-						<span class="year">2015</span></a>
-					</p>
+					<h2 class="name">
+						<a href="http://kites.local/Трапеции/Dakine_FUSION_2013">
+							<span class="upper">Трапеция Dakine 13 FUSION</span>
+							<span class="year"></span>
+						</a>
+					</h2>
 					<p class="price">
-						<span class="red">153 900 p</span>
+						<span class="red"> 7 520 р. </span>
 					</p>
-				</article>
-				<article>
+				</div>
+				<div class="universal__cell product__cell product__cell--main">
 					<div class="img">
-						<div class="new">Новинка</div>
-						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+						<span class="new">Новинка</span>
+						<a class="catproductimg" style="background-image: url('http://kites.local/image/cache/data/shop/harness/seat/dakine/DK%20FUSION%202013-193x193.jpg');" href="http://kites.local/Трапеции/Dakine_FUSION_2013"> </a>
 					</div>
-					<p class="name">
-						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
-						<span class="year">2015</span></a>
-					</p>
+					<h2 class="name">
+						<a href="http://kites.local/Трапеции/Dakine_FUSION_2013">
+							<span class="upper">Трапеция Dakine 13 FUSION</span>
+							<span class="year"></span>
+						</a>
+					</h2>
 					<p class="price">
-						<span class="red">153 900 p</span>
+						<span class="red"> 7 520 р. </span>
 					</p>
-				</article>
-				<article>
+				</div>
+				<div class="universal__cell product__cell product__cell--main">
 					<div class="img">
-						<div class="new">Новинка</div>
-						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+						<span class="new">Новинка</span>
+						<a class="catproductimg" style="background-image: url('http://kites.local/image/cache/data/shop/harness/seat/dakine/DK%20FUSION%202013-193x193.jpg');" href="http://kites.local/Трапеции/Dakine_FUSION_2013"> </a>
 					</div>
-					<p class="name">
-						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
-						<span class="year">2015</span></a>
-					</p>
+					<h2 class="name">
+						<a href="http://kites.local/Трапеции/Dakine_FUSION_2013">
+							<span class="upper">Трапеция Dakine 13 FUSION</span>
+							<span class="year"></span>
+						</a>
+					</h2>
 					<p class="price">
-						<span class="red">153 900 p</span>
+						<span class="red"> 7 520 р. </span>
 					</p>
-				</article>
-				<article>
+				</div>
+				<div class="universal__cell product__cell product__cell--main">
 					<div class="img">
-						<div class="new">Новинка</div>
-						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+						<span class="new">Новинка</span>
+						<a class="catproductimg" style="background-image: url('http://kites.local/image/cache/data/shop/harness/seat/dakine/DK%20FUSION%202013-193x193.jpg');" href="http://kites.local/Трапеции/Dakine_FUSION_2013"> </a>
 					</div>
-					<p class="name">
-						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
-						<span class="year">2015</span></a>
-					</p>
+					<h2 class="name">
+						<a href="http://kites.local/Трапеции/Dakine_FUSION_2013">
+							<span class="upper">Трапеция Dakine 13 FUSION</span>
+							<span class="year"></span>
+						</a>
+					</h2>
 					<p class="price">
-						<span class="red">153 900 p</span>
+						<span class="red"> 7 520 р. </span>
 					</p>
-				</article>
-				<article>
+				</div>
+				<div class="universal__cell product__cell product__cell--main">
 					<div class="img">
-						<div class="new">Новинка</div>
-						<a href="goods.html"><img src="img/good_01.jpg" alt=""></a>
+						<span class="new">Новинка</span>
+						<a class="catproductimg" style="background-image: url('http://kites.local/image/cache/data/shop/harness/seat/dakine/DK%20FUSION%202013-193x193.jpg');" href="http://kites.local/Трапеции/Dakine_FUSION_2013"> </a>
 					</div>
-					<p class="name">
-						<a href="goods.html">Кайт <span class="upper">Blade Skinny boy</span>
-						<span class="year">2015</span></a>
-					</p>
+					<h2 class="name">
+						<a href="http://kites.local/Трапеции/Dakine_FUSION_2013">
+							<span class="upper">Трапеция Dakine 13 FUSION</span>
+							<span class="year"></span>
+						</a>
+					</h2>
 					<p class="price">
-						<span class="red">153 900 p</span>
+						<span class="red"> 7 520 р. </span>
 					</p>
-				</article>
+				</div>
+				<div class="universal__cell product__cell product__cell--main">
+					<div class="img">
+						<span class="new">Новинка</span>
+						<a class="catproductimg" style="background-image: url('http://kites.local/image/cache/data/shop/harness/seat/dakine/DK%20FUSION%202013-193x193.jpg');" href="http://kites.local/Трапеции/Dakine_FUSION_2013"> </a>
+					</div>
+					<h2 class="name">
+						<a href="http://kites.local/Трапеции/Dakine_FUSION_2013">
+							<span class="upper">Трапеция Dakine 13 FUSION</span>
+							<span class="year"></span>
+						</a>
+					</h2>
+					<p class="price">
+						<span class="red"> 7 520 р. </span>
+					</p>
+				</div>
+				<div class="universal__cell product__cell product__cell--main">
+					<div class="img">
+						<span class="new">Новинка</span>
+						<a class="catproductimg" style="background-image: url('http://kites.local/image/cache/data/shop/harness/seat/dakine/DK%20FUSION%202013-193x193.jpg');" href="http://kites.local/Трапеции/Dakine_FUSION_2013"> </a>
+					</div>
+					<h2 class="name">
+						<a href="http://kites.local/Трапеции/Dakine_FUSION_2013">
+							<span class="upper">Трапеция Dakine 13 FUSION</span>
+							<span class="year"></span>
+						</a>
+					</h2>
+					<p class="price">
+						<span class="red"> 7 520 р. </span>
+					</p>
+				</div>
+				<div class="universal__cell product__cell product__cell--main">
+					<div class="img">
+						<span class="new">Новинка</span>
+						<a class="catproductimg" style="background-image: url('http://kites.local/image/cache/data/shop/harness/seat/dakine/DK%20FUSION%202013-193x193.jpg');" href="http://kites.local/Трапеции/Dakine_FUSION_2013"> </a>
+					</div>
+					<h2 class="name">
+						<a href="http://kites.local/Трапеции/Dakine_FUSION_2013">
+							<span class="upper">Трапеция Dakine 13 FUSION</span>
+							<span class="year"></span>
+						</a>
+					</h2>
+					<p class="price">
+						<span class="red"> 7 520 р. </span>
+					</p>
+				</div>
+				<div class="universal__cell product__cell product__cell--main">
+					<div class="img">
+						<span class="new">Новинка</span>
+						<a class="catproductimg" style="background-image: url('http://kites.local/image/cache/data/shop/harness/seat/dakine/DK%20FUSION%202013-193x193.jpg');" href="http://kites.local/Трапеции/Dakine_FUSION_2013"> </a>
+					</div>
+					<h2 class="name">
+						<a href="http://kites.local/Трапеции/Dakine_FUSION_2013">
+							<span class="upper">Трапеция Dakine 13 FUSION</span>
+							<span class="year"></span>
+						</a>
+					</h2>
+					<p class="price">
+						<span class="red"> 7 520 р. </span>
+					</p>
+				</div>
+				<div class="universal__cell product__cell product__cell--main">
+					<div class="img">
+						<span class="new">Новинка</span>
+						<a class="catproductimg" style="background-image: url('http://kites.local/image/cache/data/shop/harness/seat/dakine/DK%20FUSION%202013-193x193.jpg');" href="http://kites.local/Трапеции/Dakine_FUSION_2013"> </a>
+					</div>
+					<h2 class="name">
+						<a href="http://kites.local/Трапеции/Dakine_FUSION_2013">
+							<span class="upper">Трапеция Dakine 13 FUSION</span>
+							<span class="year"></span>
+						</a>
+					</h2>
+					<p class="price">
+						<span class="red"> 7 520 р. </span>
+					</p>
+				</div>
+			
+				
 			</div>
 		</div>
-	</div>
+	 </div>
 
 
 	<div class="universal__wrapper clearfix blocks three_cols">
@@ -267,7 +383,33 @@
 			</div>
 		</div>
 	</div>
-	
+
+    <div class="brends universal__wrapper clearfix">
+        <img src="img/parad/img_01.gif" alt="">
+        <img src="img/parad/img_02.gif" alt="">
+        <img src="img/parad/img_03.gif" alt="">
+        <img src="img/parad/img_04.gif" alt="">
+        <img src="img/parad/img_05.gif" alt="">
+        <img src="img/parad/img_06.gif" alt="">
+        <img src="img/parad/img_07.gif" alt="">
+        <img src="img/parad/img_08.gif" alt="">
+        <img src="img/parad/img_09.gif" alt="">
+        <img src="img/parad/img_10.gif" alt="">
+        <img src="img/parad/img_09.gif" alt="" class="big_screen">
+        <img src="img/parad/img_10.gif" alt="" class="big_screen">
+        <img src="img/parad/img_09.gif" alt="" class="big_screen">
+        <img src="img/parad/img_10.gif" alt="" class="big_screen">
+    </div>
+
+
+<?php // echo $content_top; ?>
+	<div class="container home_container universal__wrapper clearfix">
+<?php // echo $column_left; ?>
+<?php // echo $column_right; ?>
+
+<?php // echo $content_bottom; ?>
+
+	</div>
 </main>
 
 <?php echo $footer; ?>

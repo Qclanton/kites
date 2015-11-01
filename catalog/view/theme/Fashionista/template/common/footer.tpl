@@ -1,5 +1,5 @@
-<footer>
-    <div class="footer_upper">
+<footer class="universal__wrapper clearfix">
+    <div class="footer_upper clear">
         <div class="footer_trinity block1">
             <ul class="star_menu">
                 <li><a href="/informatsiya#delivery">Доставка</a></li>
