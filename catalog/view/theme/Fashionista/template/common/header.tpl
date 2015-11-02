@@ -129,10 +129,13 @@
 					</ul>
 				</li>
 				<li>
+					<?php echo $cart; ?>
+					<!-- 
 					<a href="">
 						Корзина
 					</a>
 					<div id="basket_content"></div>
+					-->
 				</li>
 			</ul>	
 		</div>

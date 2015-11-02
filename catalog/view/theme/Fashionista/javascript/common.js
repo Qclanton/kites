@@ -4,28 +4,7 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
 
-		/* Ajax Cart function */
-		$.AjaxCart = function()
-		{
-		$.ajax({
-			url: 'index.php?route=checkout/cart/update',
-			dataType: 'json',
-			success: function(json) {
-				console.log(json);
-				if (json['output']) {
-					$('#basket_content').html(json['output']);
-				}
-			},
-			error: function(res) {
-
-			}
-		});            
-		}
-
 $(document).ready(function() {
-
-	$.AjaxCart();
-
 	var ovall= $('.second .total').html();
 	$('.allpages').text(ovall);
 
@@ -69,6 +48,9 @@ $(document).ready(function() {
 			var pr = parseInt($('.mainrealprice').text()) + parseInt($('.main.line ul.sizes li a.active').attr('price'));
 			var priceres = parseInt($('#quantity-opt').val()) * pr;
 			price.text(numberWithCommas(priceres) +' р.');
+			
+			// Set value in input
+			$('#option-size').val($(this).data('size'));
 		}
 	});
 
