@@ -87,114 +87,136 @@ $(document).ready(function () {
 
 		<div class="content_goods">
 			<form action="" method="POST" class="form_good">
-				<div class="line s1">
-					<div class="line_text">Рейтинг</div>
-					<div class="line_points">
-						<ul class="stars">
-							<li class="starhover"><img class="<?php if ($rating > 0) { echo 'red'; } else { echo 'blue'; } ?>" src="img/star_<?php if ($rating > 0) { echo 'red'; } else { echo 'blue'; }  ?>.png" alt=""></li>
-							<li class="starhover"><img class="<?php if ($rating > 1) { echo 'red'; } else { echo 'blue'; } ?>" src="img/star_<?php if ($rating > 1) { echo 'red'; } else { echo 'blue'; }  ?>.png" alt=""></li>
-							<li class="starhover"><img class="<?php if ($rating > 2) { echo 'red'; } else { echo 'blue'; } ?>" src="img/star_<?php if ($rating > 2) { echo 'red'; } else { echo 'blue'; }  ?>.png" alt=""></li>
-							<li class="starhover"><img class="<?php if ($rating > 3) { echo 'red'; } else { echo 'blue'; } ?>" src="img/star_<?php if ($rating > 3) { echo 'red'; } else { echo 'blue'; }  ?>.png" alt=""></li>
-							<li class="starhover"><img class="<?php if ($rating > 4) { echo 'red'; } else { echo 'blue'; } ?>" src="img/star_<?php if ($rating > 4) { echo 'red'; } else { echo 'blue'; }  ?>.png" alt=""></li>
-							<li>
-								<span data-title="цена только за купол" class="imgContainer">
-									<a href="" class="i"><img src="img/i.png" alt=""></a>
-								</span>
-							</li>
-						</ul>
-					</div>
-				</div>
-
-		  <?php if ($options) { ?>
-		  <div class="main options">
-			<?php foreach ($options as $option) { ?>
-
-				<?php if ($option['name'] == 'Размер') { ?>
-				<div class="main line s2">
-					<div class="line_text"><?php echo $option['name']; ?></div>
-					<div class="line_points">
-						
-					<!-- Real option -->
-					<input 
-						id="option-size"
-						type="hidden" 
-						name="option[<?= $option['product_option_id']; ?>]" 
-						value="<?= $option['option_value'][0]['name']; ?>"
-					>
-
-					<!-- Cute selector -->
-					<ul class="sizes">
-					<?php
-						foreach ($option['option_value'] as $i=>$option_value) { ?>
-						<li>
-							<a 
-								href="#"
-								class="<?= $i==0 ? "active" : "" ?>"
-								price="<?= intval(substr(str_replace(' ', '', $option_value['price']), 0, strpos(str_replace(' ', '', $option_value['price']), 'р'))); ?>"
-								data-size="<?= $option_value['product_option_value_id']; ?>"
-							>
-								<?= $option_value['name']; ?>
-							</a>
+				<div class="universal__line">
+					<label>Рейтинг</label>
+					<ul class="stars">
+						<li class="starhover">
+							<img class="blue" alt="" src="img/star_blue.png">
 						</li>
-						<?php } ?>
+						<li class="starhover">
+							<img class="blue" alt="" src="img/star_blue.png">
+						</li>
+						<li class="starhover">
+							<img class="blue" alt="" src="img/star_blue.png">
+						</li>
+						<li class="starhover">
+							<img class="blue" alt="" src="img/star_blue.png">
+						</li>
+						<li class="starhover">
+							<img class="blue" alt="" src="img/star_blue.png">
+						</li>
 					</ul>
 				</div>
-		   </div>
-				<?php } else if ($option['name'] == 'Цвет') { ?>
-		<div style="display: none;">
-					<div class="line_text"><?php echo $option['name']; ?></div>
-					<div class="line_points">
-							<ul class="colors">
-					<?php $i = 1; foreach ($option['option_value'] as $option_value) { ?>
-					<li><div class="c<?php echo $i; if ($i == 1) { echo ' active'; } $i++; ?>"><?php echo substr($option_value['name'], 0, strpos($option_value['name'], 'm2')); ?><div class="triangle"></div></div></li>
-					<?php } ?>
-							</ul>
 
-				  <select class="currentsel" style="display: none;padding:1px;" name="option[<?php echo $option['product_option_id']; ?>]">
-					<option value=""><?php echo $text_select; ?></option>
-					<?php foreach ($option['option_value'] as $option_value) { ?>
-					<option value="<?php echo $option_value['product_option_value_id']; ?>"><?php echo $option_value['name']; ?>
-					<?php if ($option_value['price']) { ?>
-					(<?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?>)
-					<?php } ?>
-					</option>
-					<?php } ?>
-				  </select>
 
-				  <?php foreach ($option['option_value'] as $option_value) { ?>
-					<input type="hidden" class="opt_thumb_<?php echo $option_value['product_option_value_id']; ?>" value="<?=$option_value['thumb'];?>">
-					<input type="hidden" class="opt_popup_<?php echo $option_value['product_option_value_id']; ?>" value="<?=$option_value['popup'];?>">
-				  <?php } ?>
 
+
+			<!-- Options -->
+			<?php if ($options) { ?>
+				<div class="main options">
+					<?php foreach ($options as $option) { ?>	
+
+
+						<!-- Option "size" -->				
+						<?php if ($option['name'] == 'Размер') { ?>
+							<div class="universal__line">
+								<label><?= $option['name']; ?></label>
+
+								<!-- Real option -->
+								<input 
+									id="option-size"
+									type="hidden" 
+									name="option[<?= $option['product_option_id']; ?>]" 
+									value="<?= $option['option_value'][0]['name']; ?>"
+								>
+
+								<!-- Cute selector -->
+								<ul class="sizes">
+									<?php foreach ($option['option_value'] as $i=>$option_value) { ?>
+										<li>
+											<a 
+												href="#"
+												class="<?= $i==0 ? "active" : "" ?>"
+												data-price="<?= $option_value['price'] ?>"
+												data-size="<?= $option_value['product_option_value_id']; ?>"
+											>
+												<?= $option_value['name']; ?>
+											</a>
+										</li>
+									<?php } ?>
+								</ul>
+							</div>
+
+
+						<!-- Option "color" -->
+						<?php } else if ($option['name'] == 'Цвет') { ?>
+							<div class="universal__line">
+								<label><?= $option['name']; ?></label>
+
+								<!-- Real option -->
+								<input 
+									id="option-color"
+									type="hidden" 
+									name="option[<?= $option['product_option_id']; ?>]" 
+									value="<?= $option['option_value'][0]['name']; ?>"
+								>
+
+								<!-- Cute selector -->
+								<ul class="colors">
+									<?php foreach ($option['option_value'] as $i=>$option_value) { ?>
+										<li
+											style="cursor:pointer"
+											class="<?= $i==0 ? "active" : "" ?>"
+											data-price="<?= $option_value['price'] ?>"
+											data-color="<?= $option_value['product_option_value_id']; ?>"
+										>
+											<img alt="<?= $option_value['name'] ?>" src="<?= $option_value['image'] ?>">
+										</li>
+									<?php } ?>
+								</ul>
+							</div>
+							
+							
+						<!-- Other options -->
+						<?php } else { ?>
+							<input 
+								type="hidden" 
+								name="option[<?= $option['product_option_id']; ?>]" 
+								value="<?= $option['option_value'][0]['name']; ?>"
+							>
+						<?php } ?>
+					<?php } ?>
 				</div>
-		   </div>
+			<?php } ?>				
+
+
+
+			<!-- Price -->
+			<div class="line__count">
+				<span class="input__numbers-wrapper">
+					<div id="increase-quantity" class="quantity--before"></div>
+					<input name="quantity" id="quantity" value="1" type="number">
+					<div id="decrease-quantity" class="quantity--after"></div>
+					<span>шт.</span>
+				</span>
+
+				<span 
+					id="unit-price" 
+					data-price="<?= $special ? $special : $price ?>" 
+					class="price_red"
+				>
+					<?= $special ? $special : $price ?>
+				</span>
+
+				<?php if ($special) { ?>
+					<span class="old_price"><?= $price ?></span>
 				<?php } ?>
-
-			<?php } //foreach?>
-
 			</div>
-		  <?php } //if options ?>
 
-				<div class="main how_much">
-					<div class="tri_btn up"></div>
-					<div class="tri_btn low"></div>
-					<input type="text" name="quantity" id="quantity-opt" value="1">
-		<?php if (!$special) { ?>
-					<span class="main price_red"><?php echo $price; ?></span>
-			<div class="mainrealprice"><?php echo intval(substr(str_replace(' ', '', $price), 0, strpos(str_replace(' ', '', $price), 'р'))); ?></div>
-					<span data-title="цена только за купол" class="imgContainer">
-						<a href="" class="i"><img src="img/i.png" alt=""></a>
-					</span>
-		<?php } else { ?>
-					<span class="main price_red"><?php echo $special; ?></span>
-			<div class="mainrealprice"><?php echo intval(substr(str_replace(' ', '', $special), 0, strpos(str_replace(' ', '', $special), 'р'))); ?></div>
-					<span data-title="цена только за купол" class="imgContainer">
-						<a href="" class="i"><img src="img/i.png" alt=""></a>
-					</span>
-					<span class="old_price"><?php echo $price; ?></span>
-		<?php } ?>
 
-		</div>
+
+
+
 
 		<?php if ($accessories) { ?>
 				<div class="accessories">
@@ -260,8 +282,8 @@ $(document).ready(function () {
 		<?php } // if isset a ?>
 
 
-				<div class="itogo">
-					<h1>Итого: <span class="price_red">90 500 p.</span>
+				<div class="line__count">
+					<h1>Итого: <span id="total-price" class="price_red"><?= $special ? $special : $price ?></span>
 						<input type="hidden" name="product_id" value="<?php echo $product_id; ?>" />
 						<input type="button" value="<?php echo $button_cart; ?>" id="button-cart" class="btn_buy" />
 						<!-- <input type="submit" value="В корзину" class="btn_buy"> -->
@@ -301,9 +323,13 @@ $(document).ready(function () {
 				</div>
 				<!-- end select_block_tab2 -->
 
-		</div>
+		</div>	
+				
 		<!-- end content_goods -->
+				
 	</div>
+		
+		
 </main>
 </div>
 
@@ -314,37 +340,129 @@ $('#button-cart').bind('click', function() {
 	$.ajax({
 		url: 'index.php?route=checkout/cart/add',
 		type: 'post',
-		data: $('.product-info input[type=\'text\'], .product-info input[type=\'hidden\'], .product-info input[type=\'radio\']:checked, .product-info input[type=\'checkbox\']:checked, .product-info select, .product-info textarea'),
+		data: $('.product-info input[type=\'text\'], .product-info input[type=\'number\'], .product-info input[type=\'hidden\'], .product-info input[type=\'radio\']:checked, .product-info input[type=\'checkbox\']:checked, .product-info select, .product-info textarea'),
 		dataType: 'json',
-		success: function(json) {
-			console.log(json);
-			
-			$('.success, .warning, .attention, information, .error').remove();
-			
-			if (json['error']) {
-				if (json['error']['option']) {
+		success: function(response) {		
+			if (response['error']) {
+				console.log(response);
+				/*
 					for (i in json['error']['option']) {
 						$('#option-' + i).after('<span class="error">' + json['error']['option'][i] + '</span>');
 					}
-				}
+				*/
 			} 
 			
-			if (json['success']) {
-				$('#notification').html('<div class="success" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
-					
-				$('.success').fadeIn('slow');
-					
-				$('#cart-total').html(json['total']);
-				
+			
+			if (response['success']) {
+				// Reload cart
+				$('#cart').load('index.php #cart');				
 				$('html, body').animate({ scrollTop: 0 }, 'slow'); 
 			}	
-		},
-		error: function(response) {
-			console.log(response);
 		}
 	});
 });
 //--></script>
 
+
+<!-- Chooser of options -->
+<script>
+	$(document).ready(function() {
+		var additionalPrice = 0;
+		var isColorOptionExists = ($('#option-color').length > 0);
+		var isSizeOptionExists = ($('#option-size').length > 0);
+		
+		
+		
+		function makePriceString(priceNumber) {
+			return priceNumber.toString().split(/(?=(?:\d{3})+$)/).join(' ') + ' р.';
+		}
+		
+		function makePriceNumber(priceString) {
+			return Number(priceString.replace(' ', '').replace('р.', ''));
+		}
+		
+		
+		
+		function calcPrice() {
+			// Get base data
+			var unitPrice = makePriceNumber($('#unit-price').data('price'));
+			var quantity = Number($('#quantity').val()); 
+			var totalPrice = unitPrice*quantity;
+			
+			// Get additional data
+			var additionalPrice = 0;
+			var activeOptions = $('.options .active');
+			
+			activeOptions.each(function() { 
+				console.log(makePriceNumber($(this).data('price')));
+				additionalPrice += makePriceNumber($(this).data('price'));
+			});
+					
+			// Calculate
+			unitPrice = unitPrice+additionalPrice;
+			totalPrice = unitPrice*quantity;
+
+			// Set result
+			$('#unit-price').html(makePriceString(unitPrice));		
+			$('#total-price').html(makePriceString(totalPrice));
+		}
+		
+		// Calculate immidiately
+		calcPrice();
+		
+		// Add handler for size option
+		if (isSizeOptionExists) {
+			$('.options .sizes a').bind('click', function(ev) { 
+				ev.preventDefault();
+				
+				// Set active
+				$('.options .sizes a').removeClass('active');
+				$(this).addClass('active');	
+				
+				// Set size
+				var size = $(this).data('size');			
+				$('#option-size').val(size);
+				
+				// Recalculate prices
+				calcPrice();
+			})
+		}
+		
+		
+		// Add handler of color option
+		if (isColorOptionExists) {
+			$('.options .colors li').bind('click', function(ev) { 
+				ev.preventDefault();
+				
+				// Set active
+				$('.options .colors li').removeClass('active');
+				$(this).addClass('active');
+				
+				// Set color
+				var color = $(this).data('color');			
+				$('#option-color').val(color);
+				
+				// Recalculate prices
+				calcPrice();
+			})
+		}
+		
+		// Add handlers for inсreace and descrease of quantity events
+		$('#increase-quantity, #decrease-quantity').bind('click', function() {
+			var quantity = Number($('#quantity').val()); 
+			var newQuantity = ($(this).attr('id') == 'increase-quantity' ? quantity+1 : quantity-1); 
+			
+			// Set new quantity
+			$('#quantity').val(newQuantity);
+			
+			// Recalculate price
+			calcPrice();
+		});
+		
+		$('#quantity').bind('change', function() { 
+			calcPrice();
+		});
+	});
+</script>
 
 <?php echo $footer; ?>
