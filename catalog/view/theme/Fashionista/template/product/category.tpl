@@ -57,43 +57,59 @@
 
 		<div class="article-wrapper">
 			<div class="universal__wrapper clearfix three_cols--inner">
-				<?php foreach ( $products as $product ) { ?>
-
-				<div class="universal__cell product__cell">
-
+				<?php foreach ($products as $product) { ?>
 					<?php
+						// Calculate sale precent
+						$number_price = (int)str_replace(" ", "", $product['price']);
+						$number_special = (int)str_replace(" ", "", $product['special']);						
+						$sale_percent = (!empty($number_special)
+							? ceil(($number_price-$number_special)/$number_price*100)
+							: 0
+						);
+					?>					
 
-					//echo('<pre style="font-size: 10px;">');
-					//var_dump($product);
-					//echo('</pre>');
-					$skidka = round( ((floatval( $product[ 'price' ] ) - floatval( $product[ 'special' ] )) / floatval( $product[ 'price' ] )) * 100 , 2 );
-
-					?>
-
-					<div class="img">
-						<span class="new">Новинка</span>
-						<a class="catproductimg" href="<?php echo $product[ 'href' ]; ?>" style="background-image: url(<?php if (isset($product['thumb'])) { echo $product[ 'thumb' ]; } else { echo '/catalog/view/theme/Fashionista/img/no_picture.jpg'; } ?>);"> </a>
+					<div class="universal__cell product__cell">
+						<div class="img">
+							<?php if (!empty($sale_percent)) { ?> 
+								<span class="new">-<?= $sale_percent ?>%</span>
+							<?php } ?>
+							
+							<a 
+								class="catproductimg" 
+								href="<?=$product['href']; ?>" 
+								style="background-image: url(<?= !empty($product['thumb']) ? $product['thumb'] : "/catalog/view/theme/Fashionista/img/no_picture.jpg" ?>)"
+							>
+							</a>
+						</div>
+						<h2 class="name">
+							<a href="<?= $product['href']; ?>">
+								<span class="upper"><?= $product['name']; ?></span>
+								<span class="year"><?= $product['model']; ?></span>
+							</a>
+						</h2>
+						
+						<div class="universal__line category__size">
+							<ul class="category__size-line">
+								<p>выберите размер</p>
+								<li>1</li>
+								<li>2</li>
+								<li class="active">2</li>
+								<li>1</li>
+								<li>33</li>
+								<li>1</li>
+								<li>1</li>
+							</ul>
+						</div>
+						
+						<p class="price">
+								<span class="red"><?= !empty($product['special']) ? $product['special'] : $product['price'] ?></span>							
+							<?php if (!empty($product['special'])) { ?>
+								<span class="old"><?= $product['price']; ?></span>
+							<?php } ?>
+							
+								<span class="buy">Купить</span>
+						</p>
 					</div>
-					<h2 class="name">
-						<a href="<?php echo $product[ 'href' ]; ?>">
-							<span class="upper"><?php echo $product[ 'name' ]; ?></span>
-							<span class="year"><?php echo $product[ 'model' ]; ?></span>
-						</a>
-					</h2>
-					<p class="price">
-						<?php if ( $product[ 'special' ] > 0) { ?>
-							<span class="red"><?php echo $product[ 'special' ]; ?></span>
-							<span class="old"><?php echo $product[ 'price' ]; ?></span>
-						<?php } else { ?>
-							<span class="red">
-								<?php echo $product[ 'price' ]; ?>
-							</span>
-						<?php } ?>
-						<span class="buy">Купить</span>
-					</p>
-
-				</div>
-
 				<?php } ?>
 			</div>
 		</div>

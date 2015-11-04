@@ -1,9 +1,23 @@
 <?php
-// Calculate total quantity of products
+// Additional data is necessarty for calculate sale percent
+$this->load->model('catalog/product');
+
+// Total quantity of products
 $total_products = 0;
 
-foreach ($products as $product) {
+foreach ($products as $i=>$product) {
+	// Fetch full product info
+	$product_id = explode(":", $product['key'])[0];
+	$product_info = $this->model_catalog_product->getProduct($product_id);
+	
+	// Calculate total quantity
 	$total_products += $product['quantity'];
+	
+	// Set info about sale percent
+	$products[$i]['sale_percent'] = (!empty($product_info['special'])
+		? ceil(($product_info['price']-$product_info['special'])/$product_info['price']*100)
+		: 0
+	);
 }
 ?>
 
@@ -30,19 +44,35 @@ foreach ($products as $product) {
 					<div class="small__boxes-description">
 						<h2>
 							<a href="<?= $product['href'] ?>">
-								<span><?= str_replace((int)$product['model'], "", $product['name']) ?><span> <span class="year"><?= $product['model']; ?></span> <span class="red">(<?= $product['quantity']; ?>)</span>
+								<span><?= str_replace((int)$product['model'], "", $product['name']) ?><span> 
+								<span class="year"><?= $product['model']; ?></span> 
+								<span class="red">(<?= $product['quantity']; ?>)</span>
 							</a>
 						</h2>
+						
+						<?php if (!empty($product['sale_percent'])) { ?>
+							<h2>
+								<span class="red">Скидка <?= $product['sale_percent']; ?>%</span>
+							</h2>
+						<?php } ?>
+						
 						<ul>
-							<li>
-								<label>Размер (м2)</label> <input type="text" />
-							</li>
-							<li>
-								<label>Цвет</label> <input type="text" />
-							</li>
-							<li>
-								<span class="red"><?= $product['total']; ?></span>
-							</li>
+							<?php foreach ($product['option'] as $option) { ?>
+								<?php if (in_array($option['name'], ["Цвет", "Размер"])) { ?>
+									<li>
+										<span><?= $option['name'] ?></span>
+										<div 
+											class="small__cart-value-wrapper <?= $option['name'] == "Цвет" ? " small__cart-value-wrapper--color" : " small__cart-value-wrapper--size" ?>"
+											style="<?= $option['name'] == "Цвет" ? "background-color: {$option['value']}" : "" ?>"
+										>
+											<?= $option['name'] == "Цвет" ? "" : $option['value']; ?>
+										</div>
+									</li>
+								<?php } ?>
+							<?php } ?>
+									<li>
+										<span class="red"><?= $product['total']; ?></span>
+									</li>
 						</ul>
 					</div>
 					<a 

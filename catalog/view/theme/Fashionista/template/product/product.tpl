@@ -1,5 +1,15 @@
 <?php echo $header; ?>
 
+<?php
+	// Calculate sale precent
+	$number_price = (int)str_replace(" ", "", $price);
+	$number_special = (int)str_replace(" ", "", $special);
+	$sale_percent = (!empty($number_special)
+		? ceil(($number_price-$number_special)/$number_price*100)
+		: 0
+	);					
+?>
+					
 <script>
 $(document).ready(function () {
 
@@ -27,7 +37,9 @@ $(document).ready(function () {
 	<div class="goods__content-wrapper product-info">
 		<div class="sidebar_goods">
 			<div class="img_container" style="background-image: url(<?php if ($popup) { echo $popup; } else { echo "'/catalog/view/theme/Fashionista/img/no_picture.jpg'"; } ?>);">
-				<div class="new">-15%</div>
+				<?php if (!empty($sale_percent)) { ?> 
+					<div class="new">-<?= $sale_percent ?>%</div>
+				<?php } ?>
 
 			<?php if (isset($images[0])) { ?>
 					<a href="<?php echo $popup; ?>" class="active img_little img1" style="background-image: url(<?php echo $thumb; ?>);"> </a>
@@ -86,205 +98,282 @@ $(document).ready(function () {
 		</div> <?php //sidebar block ?>
 
 		<div class="content_goods">
-			<form action="" method="POST" class="form_good">
-				<div class="universal__line">
-					<label>Рейтинг</label>
-					<ul class="stars">
-						<li class="starhover">
-							<img class="blue" alt="" src="img/star_blue.png">
-						</li>
-						<li class="starhover">
-							<img class="blue" alt="" src="img/star_blue.png">
-						</li>
-						<li class="starhover">
-							<img class="blue" alt="" src="img/star_blue.png">
-						</li>
-						<li class="starhover">
-							<img class="blue" alt="" src="img/star_blue.png">
-						</li>
-						<li class="starhover">
-							<img class="blue" alt="" src="img/star_blue.png">
-						</li>
-					</ul>
-				</div>
+			<div class="product-data">
+				<input type="hidden" name="product_id" value="<?= $product_id; ?>" />
+				
+				<form action="" method="POST" class="form_good">
+					<div class="universal__line">
+						<label>Рейтинг</label>
+						<ul class="stars">
+							<li class="starhover">
+								<img class="blue" alt="" src="img/star_blue.png">
+							</li>
+							<li class="starhover">
+								<img class="blue" alt="" src="img/star_blue.png">
+							</li>
+							<li class="starhover">
+								<img class="blue" alt="" src="img/star_blue.png">
+							</li>
+							<li class="starhover">
+								<img class="blue" alt="" src="img/star_blue.png">
+							</li>
+							<li class="starhover">
+								<img class="blue" alt="" src="img/star_blue.png">
+							</li>
+						</ul>
+					</div>
 
 
 
 
-			<!-- Options -->
-			<?php if ($options) { ?>
-				<div class="main options">
-					<?php foreach ($options as $option) { ?>	
+				<!-- Options -->
+				<?php if ($options) { ?>
+					<div class="main options">
+						<?php foreach ($options as $option) { ?>	
 
 
-						<!-- Option "size" -->				
-						<?php if ($option['name'] == 'Размер') { ?>
-							<div class="universal__line">
-								<label><?= $option['name']; ?></label>
+							<!-- Option "size" -->				
+							<?php if ($option['name'] == 'Размер') { ?>
+								<div class="universal__line">
+									<label><?= $option['name']; ?></label>
 
-								<!-- Real option -->
-								<input 
-									id="option-size"
-									type="hidden" 
-									name="option[<?= $option['product_option_id']; ?>]" 
-									value="<?= $option['option_value'][0]['name']; ?>"
-								>
+									<!-- Real option -->
+									<input 
+										id="option-size"
+										type="hidden" 
+										name="option[<?= $option['product_option_id']; ?>]" 
+										value="<?= $option['option_value'][0]['product_option_value_id']; ?>"
+									>
 
-								<!-- Cute selector -->
-								<ul class="sizes">
-									<?php foreach ($option['option_value'] as $i=>$option_value) { ?>
-										<li>
-											<a 
-												href="#"
+									<!-- Cute selector -->
+									<ul class="sizes">
+										<?php foreach ($option['option_value'] as $i=>$option_value) { ?>
+											<li>
+												<a 
+													href="#"
+													class="<?= $i==0 ? "active" : "" ?>"
+													data-price="<?= $option_value['price'] ?>"
+													data-size="<?= $option_value['product_option_value_id']; ?>"
+													data-input-field="#option-size"
+												>
+													<?= $option_value['name']; ?>
+												</a>
+											</li>
+										<?php } ?>
+									</ul>
+								</div>
+
+
+							<!-- Option "color" -->
+							<?php } else if ($option['name'] == 'Цвет') { ?>
+								<div class="universal__line">
+									<label><?= $option['name']; ?></label>
+
+									<!-- Real option -->
+									<input 
+										id="option-color"
+										type="hidden" 
+										name="option[<?= $option['product_option_id']; ?>]" 
+										value="<?= $option['option_value'][0]['product_option_value_id']; ?>"
+									>
+
+									<!-- Cute selector -->
+									<ul class="colors">
+										<?php foreach ($option['option_value'] as $i=>$option_value) { ?>
+											<li
+												style="cursor:pointer; background-image: url(<?= $option_value['image'] ?>)"
 												class="<?= $i==0 ? "active" : "" ?>"
 												data-price="<?= $option_value['price'] ?>"
-												data-size="<?= $option_value['product_option_value_id']; ?>"
+												data-color="<?= $option_value['product_option_value_id']; ?>"
+												data-input-field="#option-color"
 											>
-												<?= $option_value['name']; ?>
-											</a>
-										</li>
-									<?php } ?>
-								</ul>
-							</div>
+											</li>
+										<?php } ?>
+									</ul>
+								</div>
 
-
-						<!-- Option "color" -->
-						<?php } else if ($option['name'] == 'Цвет') { ?>
-							<div class="universal__line">
-								<label><?= $option['name']; ?></label>
-
-								<!-- Real option -->
+								
+							<!-- Other options -->
+							<?php } else { ?>
 								<input 
-									id="option-color"
 									type="hidden" 
 									name="option[<?= $option['product_option_id']; ?>]" 
-									value="<?= $option['option_value'][0]['name']; ?>"
+									value="<?= $option['option_value'][0]['product_option_value_id']; ?>"
 								>
-
-								<!-- Cute selector -->
-								<ul class="colors">
-									<?php foreach ($option['option_value'] as $i=>$option_value) { ?>
-										<li
-											style="cursor:pointer"
-											class="<?= $i==0 ? "active" : "" ?>"
-											data-price="<?= $option_value['price'] ?>"
-											data-color="<?= $option_value['product_option_value_id']; ?>"
-										>
-											<img alt="<?= $option_value['name'] ?>" src="<?= $option_value['image'] ?>">
-										</li>
-									<?php } ?>
-								</ul>
-							</div>
-							
-							
-						<!-- Other options -->
-						<?php } else { ?>
-							<input 
-								type="hidden" 
-								name="option[<?= $option['product_option_id']; ?>]" 
-								value="<?= $option['option_value'][0]['name']; ?>"
-							>
+							<?php } ?>
 						<?php } ?>
+					</div>
+				<?php } ?>				
+
+
+
+				<!-- Price -->
+				<div class="line__count">
+					<span class="input__numbers-wrapper">
+						<div class="increase-quantity quantity--before"></div>
+						<input name="quantity" id="product-quantity" value="1" type="number">
+						<div class="decrease-quantity quantity--after"></div>
+						<span>шт.</span>
+					</span>
+
+					<span 
+						id="unit-price" 
+						data-price="<?= $special ? $special : $price ?>" 
+						class="price_red"
+					>
+						<?= $special ? $special : $price ?>
+					</span>
+
+					<?php if ($special) { ?>					
+						<span class="old_price"><?= $price ?></span>
 					<?php } ?>
 				</div>
-			<?php } ?>				
-
-
-
-			<!-- Price -->
-			<div class="line__count">
-				<span class="input__numbers-wrapper">
-					<div id="increase-quantity" class="quantity--before"></div>
-					<input name="quantity" id="quantity" value="1" type="number">
-					<div id="decrease-quantity" class="quantity--after"></div>
-					<span>шт.</span>
-				</span>
-
-				<span 
-					id="unit-price" 
-					data-price="<?= $special ? $special : $price ?>" 
-					class="price_red"
-				>
-					<?= $special ? $special : $price ?>
-				</span>
-
-				<?php if ($special) { ?>
-					<span class="old_price"><?= $price ?></span>
-				<?php } ?>
 			</div>
 
 
+			
+			<!-- Accessories -->
+			<?php if (!empty($accessories)) { ?>
+				<h1>Аксессуары </h1>
+				
+				<?php foreach ($accessories as $product_id=>$accessory) { ?>
+					<?php $options = $accessory_options[$product_id] ?>
+					
+					<p class="product__checked">
+						<input 
+							name="accessories[]" 
+							value="<?= $product_id ?>" 
+							type="checkbox"
+							data-price="<?= $accessory['special'] ? $accessory['special'] : $accessory['price'] ?>"
+						>
+						<input type="hidden" class="accessory-<?= $product_id ?>" name="product_id" value="<?= $product_id ?>" />
+						 
+						<label>
+							<?= $accessory['name'] ?>
+							
+							<?php if (empty($options)) { ?>
+									<input id="accessory-quantity-<?= $product_id ?>" name="quantity" value="1" type="hidden"> 
+									
+									<span
+										id="accessory-price-<?= $product_id ?>"
+										data-price="<?= $accessory['special'] ? $accessory['special'] : $accessory['price'] ?>"
+										class="price_red"
+									>
+										<?= $accessory['special'] ? $accessory['special'] : $accessory['price'] ?>
+									</span>
 
-
-
-
-		<?php if ($accessories) { ?>
-				<div class="accessories">
-					<h1 style="margin-bottom: 0;">Аксессуары</h1>
-					<?php foreach ($accessories as $accessory) { ?>
-		<div class="accessoryblock">
-			<div class="arequired" style="display: none;"><?php echo $accessory['required']; ?></div>
-						<?php if ($price) { ?>
-							<?php if (!$accessory['special']) { ?>
-						<div class="optrealprice"><?php echo intval(substr(str_replace(' ', '', $accessory['price']), 0, strpos(str_replace(' ', '', $accessory['price']), 'р'))); ?></div>
-							<?php } else { ?>
-						<div class="optrealprice"><?php echo intval(substr(str_replace(' ', '', $accessory['special']), 0, strpos(str_replace(' ', '', $accessory['special']), 'р'))); ?></div>
+								<?php if ($special) { ?>					
+									<span class="old_price"><?= $accessory['price'] ?></span>
+								<?php } ?>
 							<?php } ?>
-					<?php } ?>		            
+						</label>
+					</p>
+				
+					<!-- Accessory options -->
+					<?php if (!empty($options)) { ?>
+						<div class="options options-<?= $product_id ?>">
+							<?php foreach ($options as $option) { ?>	
 
-					<input type="checkbox" <?php if ($accessory['required'] == '1') { echo 'checked ="checked"'; } ?> class="acheck" id="ck">
 
-					<a href="<?php echo $accessory['popup']; ?>" title="<?php echo $accessory['name']; ?>" class="colorbox" rel="colorbox_accessory"><label for="ck"><?php echo $accessory['name']; ?></a>
-						<?php if ($price) { ?>
-							<?php if (!$accessory['special']) { ?>
-							<span class="red" <?php if ($accessory['required'] == '1') { echo 'style="display: none;"'; } ?>><?php echo $accessory['price']; ?></span>
-							<?php } else { ?>
-						<span class="red" <?php if ($accessory['required'] == '1') { echo 'style="display: none;"'; } ?>><?php echo $accessory['special']; ?></span>
-								<span class="old" <?php if ($accessory['required'] == '1') { echo 'style="display: none;"'; } ?>><?php echo $accessory['price']; ?></span> 
+								<!-- Option "size" -->				
+								<?php if ($option['name'] == 'Размер') { ?>
+									<div class="universal__line">
+										<label><?= $option['name']; ?></label>
+
+										<!-- Real option -->
+										<input 
+											type="hidden" 
+											name="option[<?= $option['product_option_id']; ?>]" 
+											value="<?= $option['option_value'][0]['product_option_value_id']; ?>"
+										>
+
+										<!-- Cute selector -->
+										<ul class="sizes">
+											<?php foreach ($option['option_value'] as $i=>$option_value) { ?>
+												<li>
+													<a 
+														href="#"
+														class="<?= $i==0 ? "active" : "" ?>"
+														data-price="<?= $option_value['price'] ?>"
+														data-size="<?= $option_value['product_option_value_id']; ?>"
+														data-input-field="input[name='option[<?= $option['product_option_id']; ?>]']"
+													>
+														<?= $option_value['name']; ?>
+													</a>
+												</li>
+											<?php } ?>
+										</ul>
+									</div>
+
+
+								<!-- Option "color" -->
+								<?php } elseif ($option['name'] == 'Цвет') { ?>
+									<div class="universal__line">
+										<label><?= $option['name']; ?></label>
+
+										<!-- Real option -->
+										<input 
+											type="hidden" 
+											name="option[<?= $option['product_option_id']; ?>]" 
+											value="<?= $option['option_value'][0]['product_option_value_id']; ?>"
+										>
+
+										<!-- Cute selector -->
+										<ul class="colors">
+											<?php foreach ($option['option_value'] as $i=>$option_value) { ?>
+												<li
+													style="cursor:pointer; background-image: url(<?= $option_value['image'] ?>)"
+													class="<?= $i==0 ? "active" : "" ?>"
+													data-price="<?= $option_value['price'] ?>"
+													data-color="<?= $option_value['product_option_value_id']; ?>"
+													data-input-field="input[name='option[<?= $option['product_option_id']; ?>]']"
+												>
+												</li>
+											<?php } ?>
+										</ul>
+									</div>
+
+									
+								<!-- Other options -->
+								<?php } else { ?>
+									<input 
+										type="hidden" 
+										name="option[<?= $option['product_option_id']; ?>]" 
+										value="<?= $option['option_value'][0]['product_option_value_id']; ?>"
+									>
+								<?php } ?>
 							<?php } ?>
-					<?php } ?>		            
-			</label>
-			<!-- options -->
-			<?php if (isset($accessory_options[$accessory['product_id']])) { ?>
-						<div class="aoptions" <?php if ($accessory['required'] == '0') { echo 'style="display: none;"'; } ?>>
-				<?php foreach ($accessory_options[$accessory['product_id']] as $option) { ?>
-						<?php if ($option['type'] == 'select') { ?>
-							<div class="line s2">
-								<div class="line_text"><?php echo $option['name']; ?></div>
-								<div class="line_points">
-									<ul class="sizes">
-							<?php $fst = true; foreach ($option['option_value'] as $option_value) { ?>
-											<li><a href=""<?php if ($fst) { $fst = false; echo ' class="active"'; } ?> value="<?php echo $option_value['product_option_value_id']; ?>" price="<?php echo $option_value['price']; ?>"><?php echo $option_value['name']; ?></a></li>
-							<?php } ?>
-									</ul>
-								</div>
-							</div>
-						<?php } ?>
-				<?php } //foreach a options ?>	
 						</div>
-			<?php } // if is options ?>
-				<div class="how_much" <?php if ($accessory['required'] == '0') { echo 'style="display: none;"'; } ?>>
-					<div class="tri_btn up"></div>
-					<div class="tri_btn low"></div>
-					<input type="text" class="ahowmuch" value="1">
-					<?php if ($price) { ?>
-						<?php if (!$accessory['special']) { ?>
-						<span class="price_red"><?php echo $accessory['price']; ?></span>
-						<?php } else { ?>
-							<span class="price_red"><?php echo $accessory['special']; ?></span>
-							<span class="old_price"><?php echo $accessory['price']; ?></span> 
+						
+						<!-- Accessory price -->	
+						<div class="line__count">
+							<span class="input__numbers-wrapper">
+								<div class="increase-quantity quantity--before"></div>
+								<input id="accessory-quantity-<?= $product_id ?>" name="quantity" value="1" type="number">
+								<div class="decrease-quantity quantity--after"></div>
+								<span>шт.</span>
+							</span>
+
+							<span 
+								id="accessory-price-<?= $product_id ?>"
+								data-price="<?= $accessory['special'] ? $accessory['special'] : $accessory['price'] ?>"
+								class="price_red"
+							>
+								<?= $accessory['special'] ? $accessory['special'] : $accessory['price'] ?>
+							</span>
+
+						<?php if ($special) { ?>					
+							<span class="old_price"><?= $accessory['price'] ?></span>
 						<?php } ?>
-					<?php } ?>		            
-				</div>
-		</div>
-				<?php } //foreach a ?>
-		</div>
-		<?php } // if isset a ?>
+						</div>
+					<?php } ?>
+				<?php } ?>
+			<?php } ?>
+
 
 
 				<div class="line__count">
 					<h1>Итого: <span id="total-price" class="price_red"><?= $special ? $special : $price ?></span>
-						<input type="hidden" name="product_id" value="<?php echo $product_id; ?>" />
 						<input type="button" value="<?php echo $button_cart; ?>" id="button-cart" class="btn_buy" />
 						<!-- <input type="submit" value="В корзину" class="btn_buy"> -->
 						<a href="order.html">Оформить заказ</a>
@@ -333,46 +422,62 @@ $(document).ready(function () {
 </main>
 </div>
 
-<script type="text/javascript"><!--
-$('#button-cart').bind('click', function() {
-	console.log('clicked');
-	
-	$.ajax({
-		url: 'index.php?route=checkout/cart/add',
-		type: 'post',
-		data: $('.product-info input[type=\'text\'], .product-info input[type=\'number\'], .product-info input[type=\'hidden\'], .product-info input[type=\'radio\']:checked, .product-info input[type=\'checkbox\']:checked, .product-info select, .product-info textarea'),
-		dataType: 'json',
-		success: function(response) {		
-			if (response['error']) {
-				console.log(response);
-				/*
-					for (i in json['error']['option']) {
-						$('#option-' + i).after('<span class="error">' + json['error']['option'][i] + '</span>');
+<script>
+	$('#button-cart').bind('click', function() {
+		// Add all accessories to cart
+		var accessories = $('input[name="accessories[]"]:checked');
+		
+		if (accessories.length > 0) {
+			accessories.each(function() { 
+				var productId = $(this).val();
+				
+				$.ajax({
+					url: 'index.php?route=checkout/cart/add',
+					type: 'post',
+					data: $('#accessory-quantity-' + productId + ', input[type="hidden"].accessory-' + productId + ', .options-' + productId + ' input[type="hidden"]'),
+					dataType: 'json',
+					success: function(response) {
+						console.log(response);						
+						/*
+						if (response['success']) {
+							// Reload cart
+							$('#cart').load('index.php #cart');				
+							$('html, body').animate({ scrollTop: 0 }, 'slow'); 
+						}
+						*/
 					}
-				*/
-			} 
-			
-			
-			if (response['success']) {
-				// Reload cart
-				$('#cart').load('index.php #cart');				
-				$('html, body').animate({ scrollTop: 0 }, 'slow'); 
-			}	
+				});
+			});
 		}
+		
+		
+		// Add product
+		$.ajax({
+			url: 'index.php?route=checkout/cart/add',
+			type: 'post',
+			data: $('.product-data input[type=\'text\'], .product-data input[type=\'number\'], .product-data input[type=\'hidden\'], .product-data input[type=\'radio\']:checked, .product-data input[type=\'checkbox\']:checked, .product-data select, .product-data textarea'),
+			dataType: 'json',
+			success: function(response) {		
+				if (response['error']) {
+					console.log(response);
+				} 
+				
+				
+				if (response['success']) {
+					// Reload cart
+					$('#cart').load('index.php #cart');				
+					$('html, body').animate({ scrollTop: 0 }, 'slow'); 
+				}	
+			}
+		});
+		
 	});
-});
-//--></script>
+</script>
 
 
 <!-- Chooser of options -->
 <script>
-	$(document).ready(function() {
-		var additionalPrice = 0;
-		var isColorOptionExists = ($('#option-color').length > 0);
-		var isSizeOptionExists = ($('#option-size').length > 0);
-		
-		
-		
+	$(document).ready(function() {	
 		function makePriceString(priceNumber) {
 			return priceNumber.toString().split(/(?=(?:\d{3})+$)/).join(' ') + ' р.';
 		}
@@ -383,83 +488,173 @@ $('#button-cart').bind('click', function() {
 		
 		
 		
+		
+		
 		function calcPrice() {
 			// Get base data
 			var unitPrice = makePriceNumber($('#unit-price').data('price'));
-			var quantity = Number($('#quantity').val()); 
+			var quantity = Number($('#product-quantity').val()); 
 			var totalPrice = unitPrice*quantity;
+			
+			
 			
 			// Get additional data
 			var additionalPrice = 0;
-			var activeOptions = $('.options .active');
+			var activeOptions = $('.main.options .active');
 			
 			activeOptions.each(function() { 
-				console.log(makePriceNumber($(this).data('price')));
 				additionalPrice += makePriceNumber($(this).data('price'));
 			});
+			
+			
+			
+			// Get data about accessories
+			var accessoriesPrice = 0;
+			var accessories = $('input[name="accessories[]"]:checked');
+			
+			accessories.each(function(index, accessory) {
+				var accessoryPrice = makePriceNumber($(this).data('price'));
+				var accessoryProductId = $(this).val();					
+				var accessoryQuantityField = $('#accessory-quantity-' + accessoryProductId);
+				var accessoryQuantity = (accessoryQuantityField.length > 0 ? accessoryQuantityField.val() : 1);
+
+				// Additional prices
+				var accessoryAdditionalPrice = 0;
+				var accessoryActiveOptions = $('.options-' + accessoryProductId + ' .active');
+				
+				if (accessoryActiveOptions.length > 0) {
+					accessoryActiveOptions.each(function() { 
+						accessoryAdditionalPrice += makePriceNumber($(this).data('price'));
+					});
+				}
+				
+				// Recalculate accessory prce
+				accessoryPrice += accessoryAdditionalPrice;
+				
+				// Show recalculated price				
+				$('#accessory-price-' + accessoryProductId).html(makePriceString(accessoryPrice));
+				
+				// Increase price of the all accessories
+				accessoriesPrice += (accessoryQuantity*accessoryPrice);
+			});
+				
+				
 					
 			// Calculate
 			unitPrice = unitPrice+additionalPrice;
-			totalPrice = unitPrice*quantity;
+			totalPrice = unitPrice*quantity+accessoriesPrice;
+
+
 
 			// Set result
 			$('#unit-price').html(makePriceString(unitPrice));		
 			$('#total-price').html(makePriceString(totalPrice));
 		}
 		
+		
+		
+		
+		
 		// Calculate immidiately
 		calcPrice();
 		
-		// Add handler for size option
-		if (isSizeOptionExists) {
-			$('.options .sizes a').bind('click', function(ev) { 
-				ev.preventDefault();
-				
-				// Set active
-				$('.options .sizes a').removeClass('active');
-				$(this).addClass('active');	
-				
-				// Set size
-				var size = $(this).data('size');			
-				$('#option-size').val(size);
-				
-				// Recalculate prices
-				calcPrice();
-			})
-		}
 		
 		
-		// Add handler of color option
-		if (isColorOptionExists) {
-			$('.options .colors li').bind('click', function(ev) { 
-				ev.preventDefault();
+		
+		
+		// Add handler for size options
+		$('.options .sizes a').bind('click', function(ev) { 
+			ev.preventDefault();
+			
+			// Set active
+			$('.options .sizes a').removeClass('active');
+			$(this).addClass('active');	
+			
+			// Set size
+			var size = $(this).data('size');
+			var inputField = $(this).data('input-field');			
+			$(inputField).val(size);
+			
+			// Recalculate prices
+			calcPrice();
+		});
+	
+		
+		
+		
+		
+		// Add handler of color options
+		$('.options .colors li').bind('click', function(ev) { 
+			ev.preventDefault();
+			
+			// Set active
+			$('.options .colors li').removeClass('active');
+			$(this).addClass('active');
+			
+			// Set color
+			var color = $(this).data('color');	
+			var inputField = $(this).data('input-field');			
+			$(inputField).val(color);
+			
+			// Activate necessary image
+			if ($(this).parents('.options').hasClass('main')) {
+				var colorIndex = $(this).index();
+				var imageLink = $('.img_container .img_little').eq(colorIndex);
 				
-				// Set active
-				$('.options .colors li').removeClass('active');
-				$(this).addClass('active');
-				
-				// Set color
-				var color = $(this).data('color');			
-				$('#option-color').val(color);
-				
-				// Recalculate prices
-				calcPrice();
-			})
-		}
+				if (imageLink.length > 0 && !imageLink.hasClass('active')) {
+					imageLink.click();
+				}
+			}
+			
+			// Recalculate prices
+			calcPrice();
+		});
+		
+		
+		
+		// Handler for little image clicks
+		$('.img_container .img_little').bind('click', function() { 
+			var imageIndex = $(this).index();
+			var colorOption = $('.options.main .colors li').eq(imageIndex);
+
+			if (colorOption.length > 0 && !colorOption.hasClass('active')) {
+				colorOption.click();
+			}
+		});
+
+
+		
+		
 		
 		// Add handlers for inсreace and descrease of quantity events
-		$('#increase-quantity, #decrease-quantity').bind('click', function() {
-			var quantity = Number($('#quantity').val()); 
-			var newQuantity = ($(this).attr('id') == 'increase-quantity' ? quantity+1 : quantity-1); 
+		$('.increase-quantity, .decrease-quantity').bind('click', function() {
+			var quantityField = $(this).siblings('input[name="quantity"]');
+			var quantity = Number(quantityField.val());
+			var newQuantity = ($(this).hasClass('increase-quantity') ? quantity+1 : quantity-1); 
 			
 			// Set new quantity
-			$('#quantity').val(newQuantity);
+			if (newQuantity > 0) {
+				quantityField.val(newQuantity);
+			}
 			
 			// Recalculate price
 			calcPrice();
 		});
 		
-		$('#quantity').bind('change', function() { 
+		$('input[name="quantity"]').bind('change', function() { 
+			if ($(this).val() < 1) {
+				$(this).val(1);
+			}
+			
+			calcPrice();
+		});
+		
+		
+		
+		
+		
+		// Add handlers to accessories
+		$('input[name="accessories[]"]').bind('change', function() { 			
 			calcPrice();
 		});
 	});
