@@ -281,58 +281,51 @@ class ControllerProductCategory extends Controller {
 			}
 										
 			$this->data['sorts'] = array();
-/**			
+			
 			$this->data['sorts'][] = array(
 				'text'  => $this->language->get('text_default'),
 				'value' => 'p.sort_order-ASC',
 				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=p.sort_order&order=ASC' . $url)
 			);
-**/			
-/**
+			
 			$this->data['sorts'][] = array(
-				'text'  => $this->language->get('new_text_name_asc'),
+				'text'  => $this->language->get('text_name_asc'),
 				'value' => 'pd.name-ASC',
 				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=pd.name&order=ASC' . $url)
 			);
-**/
-/**
+
 			$this->data['sorts'][] = array(
 				'text'  => $this->language->get('text_name_desc'),
 				'value' => 'pd.name-DESC',
 				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=pd.name&order=DESC' . $url)
 			);
-**/
+
 			$this->data['sorts'][] = array(
-				'text'  => $this->language->get('new_text_price_asc'),
+				'text'  => $this->language->get('text_price_asc'),
 				'value' => 'p.price-ASC',
 				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=p.price&order=ASC' . $url)
 			); 
-			$this->data['sorts'][] = array(
-				'text'  => $this->language->get('new_text_skidka_asc'),
-				'value' => '(p.price/ps.price)-ASC',
-				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=(p.price/ps.price)&order=ASC' . $url)
-			);
 
-/**
 			$this->data['sorts'][] = array(
 				'text'  => $this->language->get('text_price_desc'),
 				'value' => 'p.price-DESC',
 				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=p.price&order=DESC' . $url)
 			); 
-**/			
+			
+			if ($this->config->get('config_review_status')) {
 				$this->data['sorts'][] = array(
-					'text'  => $this->language->get('new_text_rating_desc'),
+					'text'  => $this->language->get('text_rating_desc'),
 					'value' => 'rating-DESC',
 					'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=rating&order=DESC' . $url)
 				); 
-/**				
+				
 				$this->data['sorts'][] = array(
 					'text'  => $this->language->get('text_rating_asc'),
 					'value' => 'rating-ASC',
 					'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=rating&order=ASC' . $url)
 				);
-**/
-/**			
+			}
+			
 			$this->data['sorts'][] = array(
 				'text'  => $this->language->get('text_model_asc'),
 				'value' => 'p.model-ASC',
@@ -344,7 +337,7 @@ class ControllerProductCategory extends Controller {
 				'value' => 'p.model-DESC',
 				'href'  => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '&sort=p.model&order=DESC' . $url)
 			);
-**/			
+			
 			$url = '';
 			
 			if (isset($this->request->get['filter'])) {
