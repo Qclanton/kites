@@ -1,8 +1,9 @@
 
-
+/*
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
+* */
 
 $(document).ready(function() {
 	var ovall= $('.second .total').html();
@@ -14,6 +15,7 @@ $(document).ready(function() {
 		$(this).parent().find('ul:first').toggle(400);
 	});
 
+	/*
 	$('.main.how_much .tri_btn.up').click(function(){
 		var pr = parseInt($(this).parent().find('.mainrealprice').text()) + parseInt($('ul.sizes li a.active').attr('price'));
 		var price = $(this).parent().find('.main.price_red');
@@ -66,7 +68,7 @@ $(document).ready(function() {
 	}, function(){
 		$('#basket_content').hide(200);
 	});
-			
+	*/	
 
     $('#main_column_st .product-image .image').hover(function(){
     	
@@ -130,7 +132,6 @@ $(document).ready(function() {
        }
        lastScrollTop = st;
        if (st == 0) {
-        console.log('UPPER');
         $('.logo').css('display', 'inline-block');
             $('header').css({
                 'position': 'relative',
@@ -174,6 +175,7 @@ $(document).ready(function() {
 		var ntxt = obzor.text();
 
     // SLIDER
+    /*
     $("#slider").slider({
         min: 0,
         max: 1000,
@@ -202,7 +204,7 @@ $(document).ready(function() {
         }
         $("#slider").slider("values",0,value1);
     });
-
+	
     $("input#maxCost").change(function(){
         var value1=$("input#minCost").val();
         var value2=$("input#maxCost").val();
@@ -215,7 +217,8 @@ $(document).ready(function() {
         }
         $("#slider").slider("values", 1, value2);
     });
-
+	*/
+	
     // COLORS
     $('.colors.first div').click(function(e) {
         var th = '.' + e.target.className;
