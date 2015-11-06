@@ -32,13 +32,6 @@ if (!function_exists("getAllProducts")) {
 	}
 }
 
-if (!function_exists("getProductsExtremum")) {
-	function getProductsExtremum($products) {
-
-	}
-}
-
-
 if (!function_exists("prepareProducts")) {
 	function prepareProducts($Controller, $products) {
 		$prepared_products = [];
@@ -174,9 +167,12 @@ if (!function_exists("getPossibleFilters")) {
 				$manufacturers[$product['manufacturer_id']] = [
 					'id' => $product['manufacturer_id'],
 					'title' => $product['manufacturer'],
-					'is_applied' =>	(!empty($manufacturers[$product['manufacturer_id']]['is_applied']) 
-						? $manufacturers[$product['manufacturer_id']]['is_applied']
-						: $is_filtered
+					'is_applied' => (!empty($applied_filters) && in_array("manufacturer", array_keys($applied_filters))
+						? (!empty($manufacturers[$product['manufacturer_id']]['is_applied']) 
+							? $manufacturers[$product['manufacturer_id']]['is_applied']
+							: $is_filtered
+						)
+						: 0
 					),
 					'quantity' => (isset($manufacturers[$product['manufacturer_id']]['quantity'])
 						? $manufacturers[$product['manufacturer_id']]['quantity']+1
@@ -193,9 +189,12 @@ if (!function_exists("getPossibleFilters")) {
 				$models[$model_info[1]] = [
 					'name' => $model_info[0],
 					'year' => $model_info[1],
-					'is_applied' =>	(!empty($models[$model_info[1]]['is_applied']) 
-						? $models[$model_info[1]]['is_applied']
-						: $is_filtered
+					'is_applied' => (!empty($applied_filters) && in_array("model", array_keys($applied_filters))
+						? (!empty($models[$model_info[1]]['is_applied']) 
+							? $models[$model_info[1]]['is_applied']
+							: $is_filtered
+						)
+						: 0
 					),
 					'quantity' => (isset($models[$model_info[1]]['quantity'])
 						? $models[$model_info[1]]['quantity']+1
