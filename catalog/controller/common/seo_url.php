@@ -96,13 +96,13 @@ class ControllerCommonSeoUrl extends Controller {
 		
 			$query = '';
 		
+
 			if ($data) {
 				foreach ($data as $key => $value) {
-					$query .= '&' . $key . '=' . $value;
+					$query .= '&' . rawurlencode((string)$key) . '=' . rawurlencode((is_array($value) ? http_build_query($value) : (string)$value));
 				}
-				
 				if ($query) {
-					$query = '?' . trim($query, '&');
+					$query = '?' . str_replace('&', '&amp;', trim($query, '&'));
 				}
 			}
 
