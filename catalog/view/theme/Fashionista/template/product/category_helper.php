@@ -1,113 +1,287 @@
 <?php
-// URL
-if (!function_exists("getUrlParts")) {
-	function getUrlParts($Controller) {
+class HelperProductCategory {
+	protected $Controller;
+	
+	public $root_category_id;
+	public $category_id;
+	
+	
+	
+	
+	
+	public function __construct($Controller) {
+		$this->Controller = $Controller;
+		$this->setRootCategoryId();
+		$this->setCategoryId();
+	}
+	
+	
+	
+	
+	
+	// URL
+	public function getUrlParts() {
 		return [
 			'root' => explode("?", $_SERVER['REQUEST_URI'])[0],
-			'sort' => (!empty($Controller->request->get['sort']) ? "&sort={$Controller->request->get['sort']}" : ""),
-			'order' => (!empty($Controller->request->get['sort']) ? "&order={$Controller->request->get['order']}" : ""),
-			'limit' =>  (!empty($Controller->request->get['limit']) ? "&limit={$Controller->request->get['limit']}" : ""),
-			'filters' => (!empty($Controller->request->get['filters']) ? "&" . http_build_query(['filters'=>$Controller->request->get['filters']]) : "")
+			'sort' => (!empty($this->Controller->request->get['sort']) ? "&sort={$this->Controller->request->get['sort']}" : ""),
+			'order' => (!empty($this->Controller->request->get['sort']) ? "&order={$this->Controller->request->get['order']}" : ""),
+			'limit' => (!empty($this->Controller->request->get['limit']) ? "&limit={$this->Controller->request->get['limit']}" : ""),
+			'filters' => (!empty($this->Controller->request->get['filters']) ? "&" . http_build_query(['filters'=>$this->Controller->request->get['filters']]) : "")
 		];
 	}
-}
-
-
-
-
-
-
-// Products
-if (!function_exists("getAllProducts")) {
-	function getAllProducts($Controller) {
-		// Define category id
-		$parts = explode("_", (string)$Controller->request->get['path']);
-		$category_id = (isset($Controller->request->get['path']) 
-			? (int)explode("_", (string)$Controller->request->get['path'])[0] 
-			: 0
+	
+	
+	
+	
+	
+	// Products
+	public function getAllProducts($options="all") {
+		$products = $this->Controller->model_catalog_product->getProducts(['filter_category_id'=>$this->category_id]);
+		
+		if (!empty($options)) {
+			$products = $this->attachOptionsToProducts($products, $options);
+		}
+		
+		return $products;	
+	}
+	
+	protected function attachOptionsToProducts(array $products, $options=[]) {
+		// Check
+		if (empty($products)) {
+			return $products;
+		}
+		
+		
+		
+		// Prepare products
+		foreach ($products as $product) {
+			$products_ids[] = $product['product_id'];
+		}
+		
+		$products_ids = "'" . implode("', '", $products_ids) . "'";
+		
+		
+		
+		// Prepare options
+		$options_query_part = (is_string($options) && $options == "all"
+			? ""
+			: "AND oc_option_description.`name` IN ('" . implode("', '", $options) .  "')"
 		);
 		
-		// Get all products
-		return $Controller->model_catalog_product->getProducts(['filter_category_id'=>$category_id]);	
+		
+		
+		
+		// Fetch product options
+		$products_options = $this->Controller->db->query("
+			SELECT 
+				oc_product.`product_id` AS 'product_id',	
+				oc_product_option.`product_option_id` AS 'option_id',
+				oc_product_option_value.`option_value_id` AS 'option_group_value_id',
+				oc_option_description.`name` AS 'option_name',							
+				oc_product_option_value.`product_option_value_id` AS 'option_value_id',
+				oc_option_value_description.`name` AS 'option_value_name',
+				oc_option_value.`image` AS 'option_value_image',	
+				oc_product_option_value.`price` AS 'option_value_price'
+			FROM 
+				`oc_product`
+				JOIN `oc_product_option` ON (oc_product_option.`product_id`=oc_product.`product_id`)
+				JOIN `oc_option_description` ON (oc_option_description.`option_id`=oc_product_option.`option_id`)
+				JOIN `oc_product_option_value` ON (oc_product_option_value.`product_option_id`=oc_product_option.`product_option_id`)
+				JOIN `oc_option_value` ON (oc_option_value.`option_value_id`=oc_product_option_value.`option_value_id`)
+				JOIN `oc_option_value_description` ON (oc_option_value_description.`option_value_id`=oc_product_option_value.`option_value_id`)
+			WHERE 1
+				AND oc_product_option_value.`quantity` > 0
+				AND oc_product.`product_id` IN ({$products_ids})
+				{$options_query_part}
+			ORDER BY oc_option_value.`sort_order`
+		")->rows;
+		
+		if (empty($products_options)) {
+			return $products;
+		}
+		
+		
+		
+		// Attach options
+		foreach ($products_options as $product_option) {
+			$products[$product_option['product_id']]['options'][$product_option['option_name']][$product_option['option_value_id']] = [
+				'option_id' => $product_option['option_id'],
+				'option_name' => $product_option['option_name'],
+				'option_group_value_id' => $product_option['option_group_value_id'],
+				'option_value_id' => $product_option['option_value_id'],
+				'option_value_name' => $product_option['option_value_name'],
+				'option_value_image' => $product_option['option_value_image'],
+				'option_value_price' => $product_option['option_value_price']
+			];
+		}
+		
+		
+		
+		return $products;
 	}
-}
-
-if (!function_exists("prepareProducts")) {
-	function prepareProducts($Controller, $products) {
+	
+	public function prepareProducts($products) {
 		$prepared_products = [];
 		
 		foreach ($products as $product) {
 			$prepared_products[] = [
-				'product_id'  => $product['product_id'],
-				'thumb'       => ($product['image']
-					? $Controller->model_tool_image->resize($product['image'], $Controller->config->get("config_image_product_width"), $Controller->config->get("config_image_product_height"))
-					: $Controller->model_tool_image->resize("no_image.jpg", $Controller->config->get("config_image_product_width"), $Controller->config->get("config_image_product_height"))
+				'product_id' => $product['product_id'],
+				'options' => (isset($product['options']) ? $product['options'] : []),
+				'thumb' => ($product['image']
+					? $this->Controller->model_tool_image->resize($product['image'], $this->Controller->config->get("config_image_product_width"), $this->Controller->config->get("config_image_product_height"))
+					: $this->Controller->model_tool_image->resize("no_image.jpg", $this->Controller->config->get("config_image_product_width"), $this->Controller->config->get("config_image_product_height"))
 				),
-				'name'        => $product['name'],
+				'name' => $product['name'],
 				'description' => utf8_substr(strip_tags(html_entity_decode($product['description'], ENT_QUOTES, "UTF-8")), 0, 300) . "..",
-				'price'       => $Controller->currency->format($Controller->tax->calculate($product['price'], $product['tax_class_id'], $Controller->config->get("config_tax"))),
-				'special'     => (!empty($product['special']) 
-					? $Controller->currency->format($Controller->tax->calculate($product['special'], $product['tax_class_id'], $Controller->config->get("config_tax")))
+				'price' => $this->Controller->currency->format($this->Controller->tax->calculate($product['price'], $product['tax_class_id'], $this->Controller->config->get("config_tax"))),
+				'special' => (!empty($product['special']) 
+					? $this->Controller->currency->format($this->Controller->tax->calculate($product['special'], $product['tax_class_id'], $this->Controller->config->get("config_tax")))
 					: false
 				),
-				'tax'         => ($Controller->config->get("config_tax")
-					? $Controller->currency->format((float)$product['special'] ? $product['special'] : $product['price'])
+				'tax' => ($this->Controller->config->get("config_tax")
+					? $this->Controller->currency->format((float)$product['special'] ? $product['special'] : $product['price'])
 					: false
 				),
-				'rating'      => $product['rating'],
-				'reviews'     => sprintf($Controller->language->get("text_reviews"), (int)$product['reviews']),
-				'href'        => $Controller->url->link("product/product", "path={$Controller->request->get['path']}&product_id={$product['product_id']}")
+				'rating' => $product['rating'],
+				'reviews' => sprintf($this->Controller->language->get("text_reviews"), (int)$product['reviews']),
+				'href' => $this->Controller->url->link("product/product", "path={$this->Controller->request->get['path']}&product_id={$product['product_id']}")
 			];
 		}
 		
 		return $prepared_products;
 	}
-}
-
-
-
-
-
-// Categories
-if (!function_exists("getSiblingCategories")) {
-	function getSiblingCategories($Controller) {
-		// Define category id
-		$parts = explode("_", (string)$Controller->request->get['path']);
-		$category_id = (isset($Controller->request->get['path']) 
-			? (int)explode("_", (string)$Controller->request->get['path'])[0] 
-			: 0
-		);
+	
+	
+	
+	
+	
+	// Categories
+	private function defineCategoriesIds() {
+		$root_category_id = 0;	
+		$category_id = 0;		
 		
+		if (isset($this->Controller->request->get['path'])) {
+			$parts = explode("_", (string)$this->Controller->request->get['path']);
+			$root_category_id = $parts[0];
+			$category_id = array_pop($parts);
+		}	
 		
-		$sibling_categories = $Controller->model_catalog_category->getCategories($category_id);
+		return [
+			'root_category_id' => $root_category_id,
+			'category_id' => $category_id
+		];
+	}
+	
+	protected function defineRootCategoryId() {
+		return $this->defineCategoriesIds()['root_category_id'];
+	}
+	
+	protected function defineCategoryId() {
+		return $this->defineCategoriesIds()['category_id'];
+	}
+	
+	public function setCategoryId($category_id=null) {
+		if (empty($category_id)) {
+			$category_id = $this->defineCategoryId();
+		}
+		
+		$this->category_id = $category_id;
+	}
+	
+	public function setRootCategoryId($root_category_id=null) {
+		if (empty($root_category_id)) {
+			$root_category_id = $this->defineRootCategoryId();
+		}
+		
+		$this->root_category_id = $root_category_id;
+	}
+	
+	public function prepareCategories($categories) {
 		$prepared_categories = [];
 		
-		foreach ($sibling_categories as $sibling_category) {
+		foreach ($categories as $category) {
 			$prepared_categories[] = [
-				'name'  => $sibling_category['name'],
-				'href'  => $Controller->url->link("product/category", "path={$category_id}_{$sibling_category['category_id']}")
+				'category_id' => $category['id'],
+				'name'  => $category['name'],
+				'href'  => $this->Controller->url->link("product/category", "path={$this->root_category_id}_{$category['id']}"),
+				'products_quantity' => $category['products_quantity']
 			];
 		}
 		
 		return $prepared_categories;
 	}
-}
-
-
-
-
-
-// Filter
-if (!function_exists("applyFiltersToProduct")) {
-	function applyFiltersToProduct($product, $filters=null) {
-		$result = true;
+	
+	public function getCategories($parent_id=0, $prepare=true) {
+		// Prepare params
+		$parent_id = (int)$parent_id;
+		$language_id = (int)$this->Controller->config->get('config_language_id');
+		$store_id = (int)$this->Controller->config->get('config_store_id');
 		
+
+		
+		// Get categories 
+		$categories = $this->Controller->db->query("
+			SELECT 
+				oc_category.`category_id` AS 'id',
+				oc_category_description.`name` AS 'name',
+					(
+						SELECT 
+							COUNT(oc_product_to_category.`product_id`)
+						FROM 
+							`oc_product_to_category`
+						WHERE 1
+							AND oc_product_to_category.`category_id`=oc_category.`category_id`
+					) AS 
+				'products_quantity'	
+			FROM 
+				`oc_category`
+				JOIN `oc_category_description` ON (oc_category_description.category_id = oc_category.category_id)
+				JOIN `oc_category_to_store` ON (oc_category_to_store.`category_id`=oc_category.`category_id`)
+			WHERE 1
+				AND oc_category.`parent_id`='{$parent_id}'
+				AND oc_category_description.`language_id`='{$language_id}'
+				AND oc_category_to_store.`store_id`='{$store_id}'
+				AND oc_category.`status`='1'
+			ORDER BY oc_category.`sort_order`, LCASE(oc_category_description.`name`)
+		")->rows;
+		
+		return ($prepare ? $this->prepareCategories($categories) : $categories);
+	}
+	
+	public function getSiblingCategories() {
+		$sibling_categories = $this->getCategories($this->root_category_id);
+		
+		return $this->prepareCategories($sibling_categories);
+	}
+	
+	
+	
+	
+	
+	// Filter
+	public function applyFiltersToProduct($product, $filters=null) {
+		$result = true;
+
 		if (empty($filters)) {
 			return $result;
 		}
 		
 		foreach ($filters as $name=>$value) {
 			switch ($name) {
+				case "size":
+					$result = false;
+					
+					if (!empty($product['options']['Размер'])) {
+						foreach ($product['options']['Размер'] as $size) {
+							if ($size['option_group_value_id'] == $value) {
+								$result = true;
+								break;
+							}
+						}
+					}
+
+					break;
+					
 				case "min_price":
 					$result = (!empty($product['special'])
 						? $product['special'] >= $value
@@ -116,7 +290,7 @@ if (!function_exists("applyFiltersToProduct")) {
 					break; 
 					
 				case "max_price":
-					$result =  (!empty($product['special'])
+					$result = (!empty($product['special'])
 						? $product['special'] <= $value
 						: $product['price'] <= $value
 					);
@@ -134,35 +308,69 @@ if (!function_exists("applyFiltersToProduct")) {
 			if (!$result) {
 				break;
 			}
+			
 		}
 		
 		return $result;
 	}
-}
 
-if (!function_exists("applyFilters")) {
-	function applyFilters($Controller, $filters) {
-		$products = getAllProducts($Controller);
+	public function applyFilters($filters) {
+		$products = $this->getAllProducts();
 		
 		$filtered = array_filter($products, function($product) use ($filters) { 
-			return applyFiltersToProduct($product, $filters);
+			return $this->applyFiltersToProduct($product, $filters);
 		});
 		
 		return $filtered;
 	}
-}
 
-if (!function_exists("getPossibleFilters")) {
-	function getPossibleFilters($Controller, $applied_filters=null) {
+	public function getPossibleFilters($applied_filters=null) {
 		// Extract filters info from products
-		$products = getAllProducts($Controller);
+		$products = $this->getAllProducts();
+		$sizes = [];
 		$manufacturers = [];
 		$models = [];
 		
 		foreach ($products as $product) {
-			$is_filtered = applyFiltersToProduct($product, $applied_filters);
+			$is_filtered = $this->applyFiltersToProduct($product, $applied_filters);
 			
-			// Manufacturers
+			
+			
+			// Sizes
+			if (!empty($product['options']['Размер'])) {
+				$sizes['value'] = null;
+				
+				foreach ($product['options']['Размер'] as $product_size) {
+					$is_applied = (!empty($applied_filters) && in_array("size", array_keys($applied_filters))
+						? (!empty($sizes['possible_values'][$product_size['option_group_value_id']]['is_applied']) 
+							? $sizes['possible_values'][$product_size['option_group_value_id']]['is_applied']
+							: $product_size['option_group_value_id'] == $applied_filters['size']
+						)
+						: false
+					);
+					
+					if ($is_applied) {
+						$sizes['value'] = $product_size['option_group_value_id'];
+					}
+							
+					$sizes['possible_values'][$product_size['option_group_value_id']] = [
+						'id' => $product_size['option_group_value_id'],
+						'title' => $product_size['option_value_name'],
+						'is_applied' => $is_applied,
+						'quantity' => (isset($sizes['possible_values'][$product_size['option_group_value_id']]['quantity'])
+							? ($is_filtered 
+								? $sizes['possible_values'][$product_size['option_group_value_id']]['quantity']+1
+								: $sizes['possible_values'][$product_size['option_group_value_id']]['quantity']
+							)
+							: 1
+						)
+					];
+				}
+			}	
+			
+			
+			
+			// Manufacturers		
 			if (!empty($product['manufacturer_id'])) {				
 				$manufacturers[$product['manufacturer_id']] = [
 					'id' => $product['manufacturer_id'],
@@ -174,18 +382,25 @@ if (!function_exists("getPossibleFilters")) {
 						)
 						: 0
 					),
-					'quantity' => (isset($manufacturers[$product['manufacturer_id']]['quantity'])
-						? $manufacturers[$product['manufacturer_id']]['quantity']+1
-						: 1
+					'quantity' => ($is_filtered 					
+						? (isset($manufacturers[$product['manufacturer_id']]['quantity'])
+							? $manufacturers[$product['manufacturer_id']]['quantity']+1
+							: 1
+						)
+						: (isset($manufacturers[$product['manufacturer_id']]['quantity'])
+							? $manufacturers[$product['manufacturer_id']]['quantity']
+							: 0
+						)
 					)
 				];
 			}	
 			
 			
-			// Models
-			preg_match("/.*([19|20]{2}[0-9]{2}).*/", $product['model'], $model_info);
 			
-			if (!empty($model_info[1])) {
+			// Models
+			preg_match("/.*([19|20]{2}[0-9]{2}-[19|20]{2}[0-9]{2}|^[19|20]{2}[0-9]{2}).*/", $product['model'], $model_info);
+			
+			if (!empty($model_info[1])) {				
 				$models[$model_info[1]] = [
 					'name' => $model_info[0],
 					'year' => $model_info[1],
@@ -196,13 +411,47 @@ if (!function_exists("getPossibleFilters")) {
 						)
 						: 0
 					),
-					'quantity' => (isset($models[$model_info[1]]['quantity'])
-						? $models[$model_info[1]]['quantity']+1
-						: 0
+					'quantity' => ($is_filtered 					
+						? (isset($models[$model_info[1]]['quantity'])
+							? $models[$model_info[1]]['quantity']+1
+							: 1
+						)
+						: (isset($models[$model_info[1]]['quantity'])
+							? $models[$model_info[1]]['quantity']
+							: 0
+						)
 					)
 				];
 			}
 		}
+
+
+			
+		// Set prices
+		$sort_filters = $applied_filters;
+		unset($sort_filters['min_price']);
+		unset($sort_filters['max_price']);		
+		$filtered_products = $this->applyFilters($sort_filters);
+		$price_sorted_products = $this->sortBy("p.price", "DESC", $filtered_products);
+		
+		end($price_sorted_products);
+		$min_product_price = (!empty(current($price_sorted_products)['special'])
+			? current($price_sorted_products)['special']
+			: (isset(current($price_sorted_products)['price'])
+				? current($price_sorted_products)['price']
+				: 0
+			)	
+		);
+		
+		reset($price_sorted_products);
+		$max_product_price = (!empty(current($price_sorted_products)['special'])
+			? current($price_sorted_products)['special']
+			: (isset(current($price_sorted_products)['price'])
+				? current($price_sorted_products)['price']
+				: 0
+			)	
+		);
+
 
 
 
@@ -215,25 +464,25 @@ if (!function_exists("getPossibleFilters")) {
 		
 		
 		
-		$price_sorted_products = sortBy("p.price", "DESC", $Controller, $products);
 
+		// Return
 		return [
-			'min_price' => 0,
-			'max_price' => (isset($price_sorted_products[0]) ? ceil($price_sorted_products[0]['price']) : 0),
+			'sizes' => $sizes,
+			'min_price' => ceil($min_product_price),
+			'max_price' => ceil($max_product_price),
 			'manufacturers' => $manufacturers,
 			'models' => $models
 		];
 	}
-}
-
-
-
-
-// Sort
-if (!function_exists("sortBy")) {
-	function sortBy($field, $order, $Controller, $products=null) {
+	
+	
+	
+	
+	
+	// Sort
+	public function sortBy($field, $order, $products=null) {
 		// Get products
-		$products = (!empty($products) ? $products : getAllProducts($Controller));
+		$products = (!empty($products) ? $products : $this->getAllProducts());
 		
 		
 		
@@ -292,11 +541,9 @@ if (!function_exists("sortBy")) {
 		
 		return $products;
 	}
-}
 
-if (!function_exists("getPossibleSorts")) {
-	function getPossibleSorts($Controller, $sort, $order) {		
-		$url = getUrlParts($Controller);
+	public function getPossibleSorts($sort, $order) {		
+		$url = $this->getUrlParts();
 
 		return [
 			[
@@ -317,5 +564,5 @@ if (!function_exists("getPossibleSorts")) {
 				'value' => "rating-" . ("{$sort}-{$order}" == "rating-DESC" ? "ASC" : "DESC")
 			]
 		];
-	}
+	}	
 }

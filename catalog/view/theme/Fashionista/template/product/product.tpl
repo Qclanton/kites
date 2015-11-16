@@ -99,7 +99,7 @@ $(document).ready(function () {
 
 		<div class="content_goods">
 			<div class="product-data">
-				<input type="hidden" name="product_id" value="<?= $product_id; ?>" />
+				<input data-product-entity="option" type="hidden" name="product_id" value="<?= $product_id; ?>" />
 				
 				<form action="" method="POST" class="form_good">
 					<div class="universal__line">
@@ -128,7 +128,7 @@ $(document).ready(function () {
 
 				<!-- Options -->
 				<?php if ($options) { ?>
-					<div class="main options">
+					<div class="main options" data-product-entity="options">
 						<?php foreach ($options as $option) { ?>	
 
 
@@ -143,19 +143,19 @@ $(document).ready(function () {
 										type="hidden" 
 										name="option[<?= $option['product_option_id']; ?>]" 
 										value="<?= $option['option_value'][0]['product_option_value_id']; ?>"
+										data-product-entity="option"
 									>
 
 									<!-- Cute selector -->
 									<ul class="sizes">
 										<?php foreach ($option['option_value'] as $i=>$option_value) { ?>
-											<li>
-												<a 
-													href="#"
-													class="<?= $i==0 ? "active" : "" ?>"
-													data-price="<?= $option_value['price'] ?>"
-													data-size="<?= $option_value['product_option_value_id']; ?>"
-													data-input-field="#option-size"
-												>
+											<li
+												class="<?= $i==0 ? "active" : "" ?>"
+												data-price="<?= $option_value['price'] ?>"
+												data-size="<?= $option_value['product_option_value_id']; ?>"
+												data-input-field="#option-size"
+											>
+												<a>
 													<?= $option_value['name']; ?>
 												</a>
 											</li>
@@ -175,6 +175,7 @@ $(document).ready(function () {
 										type="hidden" 
 										name="option[<?= $option['product_option_id']; ?>]" 
 										value="<?= $option['option_value'][0]['product_option_value_id']; ?>"
+										data-product-entity="option"
 									>
 
 									<!-- Cute selector -->
@@ -199,6 +200,7 @@ $(document).ready(function () {
 									type="hidden" 
 									name="option[<?= $option['product_option_id']; ?>]" 
 									value="<?= $option['option_value'][0]['product_option_value_id']; ?>"
+									data-product-entity="option"
 								>
 							<?php } ?>
 						<?php } ?>
@@ -211,13 +213,14 @@ $(document).ready(function () {
 				<div class="line__count">
 					<span class="input__numbers-wrapper">
 						<div class="increase-quantity quantity--before"></div>
-						<input name="quantity" id="product-quantity" value="1" type="number">
+						<input name="quantity" id="product-quantity" data-product-entity="quantity" value="1" type="number">
 						<div class="decrease-quantity quantity--after"></div>
 						<span>шт.</span>
 					</span>
 
 					<span 
-						id="unit-price" 
+						id="unit-price"
+						data-product-entity="unit-price"
 						data-price="<?= $special ? $special : $price ?>" 
 						class="price_red"
 					>
@@ -237,7 +240,7 @@ $(document).ready(function () {
 				<h1>Аксессуары </h1>
 				
 				<?php foreach ($accessories as $product_id=>$accessory) { ?>
-					<?php $options = $accessory_options[$product_id] ?>
+					<?php $options = (isset($accessory_options[$product_id]) ? $accessory_options[$product_id] : null) ?>
 					
 					<p class="product__checked">
 						<input 
@@ -290,14 +293,13 @@ $(document).ready(function () {
 										<!-- Cute selector -->
 										<ul class="sizes">
 											<?php foreach ($option['option_value'] as $i=>$option_value) { ?>
-												<li>
-													<a 
-														href="#"
-														class="<?= $i==0 ? "active" : "" ?>"
-														data-price="<?= $option_value['price'] ?>"
-														data-size="<?= $option_value['product_option_value_id']; ?>"
-														data-input-field="input[name='option[<?= $option['product_option_id']; ?>]']"
-													>
+												<li
+													class="<?= $i==0 ? "active" : "" ?>"
+													data-price="<?= $option_value['price'] ?>"
+													data-size="<?= $option_value['product_option_value_id']; ?>"
+													data-input-field="input[name='option[<?= $option['product_option_id']; ?>]']"
+												>
+													<a>
 														<?= $option_value['name']; ?>
 													</a>
 												</li>
@@ -373,8 +375,8 @@ $(document).ready(function () {
 
 
 				<div class="line__count">
-					<h1>Итого: <span id="total-price" class="price_red"><?= $special ? $special : $price ?></span>
-						<input type="button" value="<?php echo $button_cart; ?>" id="button-cart" class="btn_buy" />
+					<h1>Итого: <span id="total-price" data-product-entity="total-price" class="price_red"><?= $special ? $special : $price ?></span>
+						<input type="button" value="В корзину" id="button-cart" class="btn_buy" />
 						<!-- <input type="submit" value="В корзину" class="btn_buy"> -->
 						<a href="order.html">Оформить заказ</a>
 					</h1>
@@ -411,7 +413,26 @@ $(document).ready(function () {
 					</div>
 				</div>
 				<!-- end select_block_tab2 -->
-
+			
+			<!-- Modal "Cart added" -->
+			<div id="cart-added__popup" class="popup__overlay" data-product-entity="cart-added-popup">
+				<div class="popup__wrapper--inner">
+					<div class="popup__wrapper-block">
+						<div class="reveal-modal popup__wrapper popup__error">
+							<div class="popup__title"> 
+								<h1>Спасибо!</h1>
+								<a class="close close-reveal-modal"><img src="img/close.png" alt=""></a>
+							</div>
+							<div class="popup__content">
+								<h2>
+									<strong>Ваш товар добавлен в корзину</strong>
+								</h2>
+								<a class="red-button close close-reveal-modal">Ок</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>	
 				
 		<!-- end content_goods -->
@@ -422,241 +443,11 @@ $(document).ready(function () {
 </main>
 </div>
 
-<script>
-	$('#button-cart').bind('click', function() {
-		// Add all accessories to cart
-		var accessories = $('input[name="accessories[]"]:checked');
-		
-		if (accessories.length > 0) {
-			accessories.each(function() { 
-				var productId = $(this).val();
-				
-				$.ajax({
-					url: 'index.php?route=checkout/cart/add',
-					type: 'post',
-					data: $('#accessory-quantity-' + productId + ', input[type="hidden"].accessory-' + productId + ', .options-' + productId + ' input[type="hidden"]'),
-					dataType: 'json',
-					success: function(response) {
-						console.log(response);						
-						/*
-						if (response['success']) {
-							// Reload cart
-							$('#cart').load('index.php #cart');				
-							$('html, body').animate({ scrollTop: 0 }, 'slow'); 
-						}
-						*/
-					}
-				});
-			});
-		}
-		
-		
-		// Add product
-		$.ajax({
-			url: 'index.php?route=checkout/cart/add',
-			type: 'post',
-			data: $('.product-data input[type=\'text\'], .product-data input[type=\'number\'], .product-data input[type=\'hidden\'], .product-data input[type=\'radio\']:checked, .product-data input[type=\'checkbox\']:checked, .product-data select, .product-data textarea'),
-			dataType: 'json',
-			success: function(response) {		
-				if (response['error']) {
-					console.log(response);
-				} 
-				
-				
-				if (response['success']) {
-					// Reload cart
-					$('#cart').load('index.php #cart');				
-					$('html, body').animate({ scrollTop: 0 }, 'slow'); 
-				}	
-			}
-		});
-		
-	});
-</script>
-
 
 <!-- Chooser of options -->
 <script>
 	$(document).ready(function() {	
-		function makePriceString(priceNumber) {
-			return priceNumber.toString().split(/(?=(?:\d{3})+$)/).join(' ') + ' р.';
-		}
-		
-		function makePriceNumber(priceString) {
-			return Number(priceString.replace(' ', '').replace('р.', ''));
-		}
-		
-		
-		
-		
-		
-		function calcPrice() {
-			// Get base data
-			var unitPrice = makePriceNumber($('#unit-price').data('price'));
-			var quantity = Number($('#product-quantity').val()); 
-			var totalPrice = unitPrice*quantity;
-			
-			
-			
-			// Get additional data
-			var additionalPrice = 0;
-			var activeOptions = $('.main.options .active');
-			
-			activeOptions.each(function() { 
-				additionalPrice += makePriceNumber($(this).data('price'));
-			});
-			
-			
-			
-			// Get data about accessories
-			var accessoriesPrice = 0;
-			var accessories = $('input[name="accessories[]"]:checked');
-			
-			accessories.each(function(index, accessory) {
-				var accessoryPrice = makePriceNumber($(this).data('price'));
-				var accessoryProductId = $(this).val();					
-				var accessoryQuantityField = $('#accessory-quantity-' + accessoryProductId);
-				var accessoryQuantity = (accessoryQuantityField.length > 0 ? accessoryQuantityField.val() : 1);
-
-				// Additional prices
-				var accessoryAdditionalPrice = 0;
-				var accessoryActiveOptions = $('.options-' + accessoryProductId + ' .active');
-				
-				if (accessoryActiveOptions.length > 0) {
-					accessoryActiveOptions.each(function() { 
-						accessoryAdditionalPrice += makePriceNumber($(this).data('price'));
-					});
-				}
-				
-				// Recalculate accessory prce
-				accessoryPrice += accessoryAdditionalPrice;
-				
-				// Show recalculated price				
-				$('#accessory-price-' + accessoryProductId).html(makePriceString(accessoryPrice));
-				
-				// Increase price of the all accessories
-				accessoriesPrice += (accessoryQuantity*accessoryPrice);
-			});
-				
-				
-					
-			// Calculate
-			unitPrice = unitPrice+additionalPrice;
-			totalPrice = unitPrice*quantity+accessoriesPrice;
-
-
-
-			// Set result
-			$('#unit-price').html(makePriceString(unitPrice));		
-			$('#total-price').html(makePriceString(totalPrice));
-		}
-		
-		
-		
-		
-		
-		// Calculate immidiately
-		calcPrice();
-		
-		
-		
-		
-		
-		// Add handler for size options
-		$('.options .sizes a').bind('click', function(ev) { 
-			ev.preventDefault();
-			
-			// Set active
-			$('.options .sizes a').removeClass('active');
-			$(this).addClass('active');	
-			
-			// Set size
-			var size = $(this).data('size');
-			var inputField = $(this).data('input-field');			
-			$(inputField).val(size);
-			
-			// Recalculate prices
-			calcPrice();
-		});
-	
-		
-		
-		
-		
-		// Add handler of color options
-		$('.options .colors li').bind('click', function(ev) { 
-			ev.preventDefault();
-			
-			// Set active
-			$('.options .colors li').removeClass('active');
-			$(this).addClass('active');
-			
-			// Set color
-			var color = $(this).data('color');	
-			var inputField = $(this).data('input-field');			
-			$(inputField).val(color);
-			
-			// Activate necessary image
-			if ($(this).parents('.options').hasClass('main')) {
-				var colorIndex = $(this).index();
-				var imageLink = $('.img_container .img_little').eq(colorIndex);
-				
-				if (imageLink.length > 0 && !imageLink.hasClass('active')) {
-					imageLink.click();
-				}
-			}
-			
-			// Recalculate prices
-			calcPrice();
-		});
-		
-		
-		
-		// Handler for little image clicks
-		$('.img_container .img_little').bind('click', function() { 
-			var imageIndex = $(this).index();
-			var colorOption = $('.options.main .colors li').eq(imageIndex);
-
-			if (colorOption.length > 0 && !colorOption.hasClass('active')) {
-				colorOption.click();
-			}
-		});
-
-
-		
-		
-		
-		// Add handlers for inсreace and descrease of quantity events
-		$('.increase-quantity, .decrease-quantity').bind('click', function() {
-			var quantityField = $(this).siblings('input[name="quantity"]');
-			var quantity = Number(quantityField.val());
-			var newQuantity = ($(this).hasClass('increase-quantity') ? quantity+1 : quantity-1); 
-			
-			// Set new quantity
-			if (newQuantity > 0) {
-				quantityField.val(newQuantity);
-			}
-			
-			// Recalculate price
-			calcPrice();
-		});
-		
-		$('input[name="quantity"]').bind('change', function() { 
-			if ($(this).val() < 1) {
-				$(this).val(1);
-			}
-			
-			calcPrice();
-		});
-		
-		
-		
-		
-		
-		// Add handlers to accessories
-		$('input[name="accessories[]"]').bind('change', function() { 			
-			calcPrice();
-		});
+		$('.content_goods').Product();
 	});
 </script>
 

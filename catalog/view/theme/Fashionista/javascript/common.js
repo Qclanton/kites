@@ -1,11 +1,364 @@
-
-/*
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+// Conevrting functions
+function makePriceNumber(priceString) {
+	return Number(priceString.toString().replace(' ', '').replace('р.', ''));
 }
-* */
 
-$(document).ready(function() {
+function makePriceString(priceNumber) {				
+	return priceNumber.toString().split(/(?=(?:\d{3})+$)/).join(' ') + ' р.';
+}
+	
+$(document).ready(function() {					
+	// Function for product
+	$.fn.Product = function(productValues) {		
+		var Element = this;			
+		var Product = {		
+			// Fields
+			getFields: function() {
+				return {
+					// Required
+					quantity: Element.find('[data-product-entity="quantity"]'),
+					unitPrice: Element.find('[data-product-entity="unit-price"]'),
+					
+					// Optional
+					chosenOptions: Element.find('[data-product-entity="options"] .active'),
+					chosenAccesories: Element.find('input[name="accessories[]"]:checked'),
+					totalPrice: $('[data-product-entity="total-price"]')
+				}
+			},
+			
+		
+		
+			// Values
+			values: {
+				unitPrice: '',
+				quantity: 1
+			},
+			
+			setValues: function(values) {
+				if ('unitPrice' in values) {
+					this.values.unitPrice = makePriceNumber(values.unitPrice);
+				}
+				
+				if ('quantity' in values) {
+					this.values.quantity = Number(values.quantity);
+				}
+			},
+			
+			setBindedValues: function() {
+				var fields = this.getFields();
+				
+				this.setValues({
+					unitPrice: fields.unitPrice.attr('data-price'),
+					quantity: fields.quantity.val()
+				});
+			},
+			
+			getValues: function() {
+				return this.values;
+			},
+			
+			
+			
+			
+			// Calc
+			calcPrice: function() {
+				this.setBindedValues();
+				
+				var fields = this.getFields();
+				var values = this.getValues();
+
+
+				// Get base data
+				var unitPrice = values.unitPrice;
+				var quantity = values.quantity;
+				var totalPrice = unitPrice*quantity;
+				
+				
+				
+				// Get additional data
+				var additionalPrice = 0;
+				var chosenOptions = fields.chosenOptions;
+
+				
+				if (chosenOptions.length > 0) {
+					chosenOptions.each(function() { 
+						additionalPrice += makePriceNumber($(this).data('price'));
+					});
+				}
+				
+				
+				
+				// Get data about accessories
+				var accessoriesPrice = 0;
+				var accessories = fields.chosenAccesories;
+				
+				if (accessories.length > 0) {
+					accessories.each(function(index, accessory) {
+						var accessoryPrice = makePriceNumber($(this).data('price'));
+						var accessoryProductId = $(this).val();					
+						var accessoryQuantityField = $('#accessory-quantity-' + accessoryProductId);
+						var accessoryQuantity = (accessoryQuantityField.length > 0 ? accessoryQuantityField.val() : 1);
+
+						// Additional prices
+						var accessoryAdditionalPrice = 0;
+						var accessoryActiveOptions = $('.options-' + accessoryProductId + ' .active');
+						
+						if (accessoryActiveOptions.length > 0) {
+							accessoryActiveOptions.each(function() { 
+								accessoryAdditionalPrice += makePriceNumber($(this).data('price'));
+							});
+						}
+						
+						// Recalculate accessory price
+						accessoryPrice += accessoryAdditionalPrice;
+						
+						// Show recalculated price				
+						$('#accessory-price-' + accessoryProductId).html(makePriceString(accessoryPrice));
+						
+						// Increase price of the all accessories
+						accessoriesPrice += (accessoryQuantity*accessoryPrice);
+					});
+				}
+					
+					
+						
+				// Calculate
+				unitPrice = unitPrice+additionalPrice;
+				totalPrice = unitPrice*quantity+accessoriesPrice;
+
+
+
+				// Set result
+				fields.unitPrice.html(makePriceString(unitPrice));
+				
+				if (fields.totalPrice.length > 0) {
+					fields.totalPrice.html(makePriceString(totalPrice));
+				}
+			},
+			
+			
+			
+			// Add to cart
+			addToCart: function() {					
+				var fields = this.getFields();
+				
+				// Add all accessories to cart
+				var accessories = fields.chosenAccesories;
+				
+				if (accessories.length > 0) {
+					accessories.each(function() { 
+						var productId = $(this).val();
+						
+						$.ajax({
+							url: 'index.php?route=checkout/cart/add',
+							type: 'post',
+							data: $('#accessory-quantity-' + productId + ', input[type="hidden"].accessory-' + productId + ', .options-' + productId + ' input[type="hidden"]'),
+							dataType: 'json',
+							success: function(response) {
+								console.log(response);						
+								/*
+								if (response['success']) {
+									// Reload cart
+									$('#cart').load('index.php #cart');				
+									$('html, body').animate({ scrollTop: 0 }, 'slow'); 
+								}
+								*/
+							}
+						});
+					});
+				}
+				
+				
+				// Add product
+				// console.log(Element.find('[data-product-entity="option"], [data-product-entity="quantity"]'));
+	
+				$.ajax({
+					url: 'index.php?route=checkout/cart/add',
+					type: 'post',
+					data: Element.find('[data-product-entity="option"], [data-product-entity="quantity"]'),
+					dataType: 'json',
+					success: function(response) {		
+						if (response['error']) {
+							console.log(response);
+						} 
+						
+						
+						if (response['success']) {
+							// Reload cart
+							$('#cart').load('index.php #cart > *');	
+							
+							
+							
+							// Show modal "cart added"
+							var cartAddedModal = $('body').find('[data-product-entity="cart-added-popup"]');
+							// console.log(cartAddedModal);
+							
+							if (cartAddedModal.length > 0) {
+								cartAddedModal.fadeIn('fast');
+								
+								cartAddedModal.find('.close').bind('click', function() {
+									cartAddedModal.fadeOut('fast');
+								});
+							}
+
+							
+							
+							// Close modal "fast buy"
+							var closeButton = Element.find('[data-product-entity="close_button"]');
+							
+							if (closeButton.length > 0)	{
+								closeButton.click();
+							}		
+							// $('html, body').animate({ scrollTop: 0 }, 'slow'); 
+						}	
+					}
+				});
+			}
+		}	
+		
+		
+		
+		// Handlers
+		function setHandlers() {			
+			// Handler for size options
+			Element.delegate('.sizes li', 'click', function(ev) {
+				ev.preventDefault();
+				
+				// Set active
+				$(this).siblings().removeClass('active');
+				$(this).addClass('active');	
+				
+				// Set size
+				var size = $(this).data('size');
+				var inputField = $(this).data('input-field');
+				$(inputField).val(size);
+				
+				// Recalculate
+				Product.calcPrice();
+			});
+		
+			
+			
+			
+			
+			// Handler of color options
+			Element.delegate('.colors li', 'click', function(ev) {
+				ev.preventDefault();
+				
+				// Set active
+				$(this).siblings().removeClass('active');
+				$(this).addClass('active');	
+				
+				// Set color
+				var color = $(this).data('color');	
+				var inputField = $(this).data('input-field');			
+				$(inputField).val(color);
+				
+				// Activate necessary image
+				if ($(this).parents('[data-product-entity="options"]').length > 0) {
+					var colorIndex = $(this).index();
+					var imageLink = $('.img_container .img_little').eq(colorIndex);
+					
+					if (imageLink.length > 0 && !imageLink.hasClass('active')) {
+						imageLink.click();
+					}
+				}
+				
+				// Recalculate prices
+				Product.calcPrice();
+			});
+			
+			
+			
+			
+			// Handler for little image clicks
+			$('.img_container .img_little').bind('click', function() { 
+				var imageIndex = $(this).index();
+				var colorOption = $('[data-product-entity="options"] .colors li').eq(imageIndex);
+
+				if (colorOption.length > 0 && !colorOption.hasClass('active')) {
+					colorOption.click();
+				}
+			});
+
+			
+			
+			
+			// Add handlers for inсreace and descrease of quantity events
+			$('.increase-quantity, .decrease-quantity').bind('click', function() {
+				var quantityField = $(this).siblings('input[name="quantity"]');
+				var quantity = Number(quantityField.val());
+				var newQuantity = ($(this).hasClass('increase-quantity') ? quantity+1 : quantity-1); 
+				
+				// Set new quantity
+				if (newQuantity > 0) {
+					quantityField.val(newQuantity);
+					
+					Product.setValues({ 
+						quantity: newQuantity
+					});
+				}
+				
+				// Recalculate price
+				Product.calcPrice();	
+			});
+			
+			$('input[name="quantity"]').bind('change', function() { 
+				if ($(this).val() < 1) {
+					$(this).val(1);
+				}
+				
+				Product.calcPrice();	
+			});	
+			
+			
+		
+			// Add handlers for accessories
+			Element.delegate('input[name="accessories[]"]', 'change', function(ev) {	
+				Product.calcPrice();	
+			});
+			
+			
+			
+			
+			// Add handler for button "buy"		
+			$('body').delegate('#button-cart', 'click', function() {
+				Product.addToCart();			
+			});
+			
+			
+			
+			// Mark as initialized
+			Element.data('product-handlers-setted', true);
+		}
+		
+		
+		
+		
+		// Set handlers
+		var isHandlersSetted = (Element.data('product-handlers-setted') == true);
+		
+		if (!isHandlersSetted) {
+			setHandlers();
+		}
+		
+		
+		
+		// Do the action	
+		productValues = productValues || null;
+		
+		if (productValues === null) {
+			Product.setBindedValues();
+			Product.calcPrice();							
+		} else {
+			Product.setValues(productValues);
+			Product.calcPrice();
+			Product.setBindedValues();
+		}
+	}
+	
+	
+	
 	var ovall= $('.second .total').html();
 	$('.allpages').text(ovall);
 
